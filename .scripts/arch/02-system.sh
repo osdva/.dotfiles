@@ -16,10 +16,8 @@ sudo systemctl enable ly.service
 log_info "Installing noctalia-shell..."
 paru -S --needed --noconfirm noctalia-shell
 
-log_info "Installing walker..."
-paru -S --needed --noconfirm walker elephant-all-bin
-elephant service enable
-systemctl --user start elephant.service
+log_info "Installing launcher..."
+paru -S --needed --noconfirm vicinae-bin
 
 log_info "Cleaning up niri dependencies..."
 

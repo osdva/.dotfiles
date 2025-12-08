@@ -366,7 +366,7 @@ binds {
     Mod+T hotkey-overlay-title="Open a Terminal" { spawn "kitty"; }
     Mod+B hotkey-overlay-title="Open browser" { spawn "google-chrome-stable"; }
     Mod+P hotkey-overlay-title="Open password manager" { spawn "1password"; }
-    Mod+Space repeat=false { spawn "walker"; }
+    Mod+Space repeat=false { spawn "vicinae" "toggle"; }
     Mod+Alt+L hotkey-overlay-title="Lock Screen" {
         spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock";
     }
@@ -630,5 +630,4 @@ environment {
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-at-startup "qs" "-c" "noctalia-shell"
 spawn-at-startup "/usr/lib/soteria-polkit/soteria" 
-spawn-at-startup "walker --gapplication-service"
-
+spawn-sh-at-startup "vicinae server"
