@@ -20,7 +20,7 @@
           "style": "plain"
         },
         {
-          "properties": {
+          "options": {
             "style": "full"
           },
           "template": "{{ .Path }} ",
@@ -35,7 +35,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
+          "options": {
             "branch_ahead_icon": "<#88C0D0>\u21e1 </>",
             "branch_behind_icon": "<#88C0D0>\u21e3 </>",
             "branch_icon": "",
@@ -56,7 +56,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
+          "options": {
             "style": "austin"
           },
           "template": " {{ .FormattedMs }} ",
@@ -71,7 +71,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
+          "options": {
             "always_enabled": true
           },
           "template": "❯ ",
@@ -86,5 +86,5 @@
       "newline": true
     }
   ],
-  "version": 3
+  "version": 4
 }

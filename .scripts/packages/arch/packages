@@ -22,7 +22,9 @@ kitty
 gitu
 lazygit
 lazydocker
-docker
+podman
+podman-compose
+podman-docker
 just
 mise
 1password-cli

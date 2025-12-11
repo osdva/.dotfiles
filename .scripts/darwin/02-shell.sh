@@ -6,14 +6,20 @@ source "$SCRIPT_DIR/../lib/tui.sh"
 
 log_header "Shell Setup"
 
-if ! command -v zsh &>/dev/null; then
-  log_info "Installing zsh..."
-  brew install zsh
+if ! command -v bash &>/dev/null; then
+  log_info "Installing bash..."
+  brew install bash
 fi
 
-if confirm "Set zsh as default shell for $USER?"; then
-  chsh -s "$(which zsh)"
-  log_success "zsh set as default shell (requires re-login)"
+if confirm "Set bash as default shell for $USER?"; then
+  chsh -s "$(which bash)"
+  log_success "bash set as default shell (requires re-login)"
+fi
+
+if ! command -v fish &>/dev/null; then
+  log_info "Installing fish shell..."
+  brew install fish
+  log_info "Fish shell will be used as interactive shell"
 fi
 
 log_success "Shell setup complete"

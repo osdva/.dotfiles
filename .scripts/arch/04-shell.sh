@@ -6,12 +6,15 @@ source "$SCRIPT_DIR/../lib/tui.sh"
 
 log_header "Shell Setup"
 
-log_info "Installing zsh..."
-paru -S --needed --noconfirm zsh
+log_info "Installing login shell..."
+paru -S --needed --noconfirm fish bash
 
-if confirm "Set zsh as default shell for $USER?"; then
-  chsh -s /usr/bin/zsh
-  log_success "zsh set as default shell (requires re-login)"
+if confirm "Set bash as default shell for $USER?"; then
+  command -v bash | sudo tee -a /etc/shells
+  chsh -s "$(command -v bash)"
+  log_success "bash set as default shell (requires re-login)"
+
+  log_info "Fish shell will be used as an interactive shell."
 fi
 
 log_success "Shell setup complete"
