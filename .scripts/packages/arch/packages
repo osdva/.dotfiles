@@ -9,7 +9,7 @@ bottom
 ripgrep
 jq
 broot
-oh-my-posh-bin
+starship
 fastfetch
 tmux
 glow
