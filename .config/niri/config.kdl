@@ -775,6 +775,5 @@ environment {
 }
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-at-startup "dms" "run"
-spawn-at-startup "/usr/lib/soteria-polkit/soteria"
 spawn-sh-at-startup "vicinae server"
 

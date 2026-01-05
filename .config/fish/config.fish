@@ -1,5 +1,6 @@
 # Sets
 set -g fish_greeting
+set --global fish_key_bindings fish_default_key_bindings
 
 # fzf
 fzf_configure_bindings --directory=\cf --git_status=\cs --processes=\cp
