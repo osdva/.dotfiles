@@ -210,6 +210,7 @@ deps.now(function()
       { mode = 'n', keys = '<leader>lc', desc = '+lsp+code_actions' },
       { mode = 'n', keys = '<leader>t', desc = '+test' },
       { mode = 'n', keys = '<leader>tw', desc = '+test+watch' },
+      { mode = 'n', keys = '<leader>s', desc = '+search' },
       miniclue.gen_clues.builtin_completion(),
       miniclue.gen_clues.g(),
       miniclue.gen_clues.marks(),
@@ -374,4 +375,6 @@ deps.now(function()
   deps.add({ source = 'MagicDuck/grug-far.nvim' })
 
   require('grug-far').setup({})
+
+  keys.map('n', '<leader>sr', '<CMD>GrugFar<CR>', { desc = 'Search & Replace' })
 end)
