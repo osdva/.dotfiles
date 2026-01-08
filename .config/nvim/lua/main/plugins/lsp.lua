@@ -90,31 +90,47 @@ deps.later(function()
       },
     },
   })
-
-  vim.lsp.config('*', { capabilities = require('blink.cmp').get_lsp_capabilities(nil, true) })
 end)
 
 -- lsp
 deps.later(function()
   deps.add({ source = 'neovim/nvim-lspconfig' })
   deps.add({
-    source = 'mason-org/mason-lspconfig.nvim',
-    depends = { 'mason-org/mason.nvim', 'neovim/nvim-lspconfig' },
-  })
-  deps.add({
     source = 'WhoIsSethDaniel/mason-tool-installer.nvim',
     depends = { 'mason-org/mason.nvim' },
   })
 
-  local lsp_servers = {
-    'lua_ls',
-    'cssls',
-    'tailwindcss',
-    'expert',
-    'ts_ls',
-    'vue_ls',
+  -- LSP server configurations
+  local lsp_configs = {
+    {
+      name = 'lua_ls',
+      root_markers = { '.luarc.json', '.luarc.jsonc', '.git' },
+    },
+    {
+      name = 'cssls',
+      root_markers = { 'package.json', '.git' },
+    },
+    {
+      name = 'tailwindcss',
+      root_markers = { 'tailwind.config.js', 'tailwind.config.ts', 'tailwind.config.cjs', '.git' },
+    },
+    {
+      name = 'expert',
+      cmd = { 'expert', '--stdio' },
+      filetypes = { 'elixir', 'eelixir', 'heex' },
+      root_markers = { 'mix.exs', '.git' },
+    },
+    {
+      name = 'ts_ls',
+      root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
+    },
+    {
+      name = 'vue_ls',
+      root_markers = { 'package.json', '.git' },
+    },
   }
 
+  -- Non-LSP tools (formatters, linters)
   local formatters_linters = {
     'stylua',
     'eslint_d',
@@ -123,18 +139,30 @@ deps.later(function()
     'biome',
   }
 
-  local ensure_installed = {}
+  local lsp_server_names = {}
+  for _, config in ipairs(lsp_configs) do
+    table.insert(lsp_server_names, config.name)
+  end
 
-  vim.list_extend(ensure_installed, lsp_servers)
-  vim.list_extend(ensure_installed, formatters_linters)
-  require('mason-lspconfig').setup({
-    ensure_installed = lsp_servers,
-  })
+  for _, config in ipairs(lsp_configs) do
+    local name = config.name
+
+    local has_lspconfig, lspconfig_mod = pcall(require, 'lspconfig.server_configurations.' .. name)
+    local defaults = has_lspconfig and lspconfig_mod.default_config or {}
+
+    local cfg = vim.tbl_deep_extend('force', {}, defaults, config)
+    cfg.name = nil
+
+    vim.lsp.config(name, cfg)
+  end
+
+  local ensure_installed = vim.list_extend(vim.list_slice(lsp_server_names), formatters_linters)
   require('mason-tool-installer').setup({
     ensure_installed = ensure_installed,
   })
 
-  vim.lsp.enable(lsp_servers)
+  vim.lsp.enable(lsp_server_names)
+
   vim.diagnostic.config({
     underline = false,
     update_in_insert = false,
