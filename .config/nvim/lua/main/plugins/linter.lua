@@ -25,7 +25,7 @@ deps.later(function()
       typescript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
       typescriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
       sh = { 'shellcheck', 'shfmt' },
-      fish = { 'fish_indent' },
+      fish = { 'fish_indent', 'fish-lsp' },
       kdl = { 'kdlfmt' },
     },
     formatters = {
