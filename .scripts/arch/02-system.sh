@@ -14,7 +14,7 @@ paru -S --needed --noconfirm ly
 sudo systemctl enable ly@tty2.service
 
 log_info "Installing desktop shell..."
-paru -S --needed --noconfirm dms-shell-bin
+paru -S --needed --noconfirm dms-shell-bin matugen
 
 log_info "Installing launcher..."
 paru -S --needed --noconfirm vicinae-bin

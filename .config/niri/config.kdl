@@ -766,6 +766,7 @@ binds {
         power-off-monitors
     }
 }
+include "dms/cursor.kdl"
 environment {
     XDG_CURRENT_DESKTOP "niri"
     QT_QPA_PLATFORM "wayland"

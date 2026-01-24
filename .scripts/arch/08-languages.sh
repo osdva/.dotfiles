@@ -21,6 +21,7 @@ mise settings set legacy_version_file true
 log_info "Installing language runtimes..."
 
 mise use -g node
+mise use -g go
 KERL_CONFIGURE_OPTIONS="--enable-wx" mise use -g erlang
 mise use -g elixir
 mise use -g usage
