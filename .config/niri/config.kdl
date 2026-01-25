@@ -340,10 +340,10 @@ binds {
     // The allow-when-locked=true property makes them work even when the session is locked.
     // Using spawn-sh allows to pass multiple arguments together with the command.
     XF86AudioRaiseVolume allow-when-locked=true {
-        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+"
+        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ --limit 1.0"
     }
     XF86AudioLowerVolume allow-when-locked=true {
-        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"
+        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05- --limit 1.0"
     }
     XF86AudioMute allow-when-locked=true {
         spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
@@ -766,7 +766,6 @@ binds {
         power-off-monitors
     }
 }
-include "dms/cursor.kdl"
 environment {
     XDG_CURRENT_DESKTOP "niri"
     QT_QPA_PLATFORM "wayland"

@@ -39,6 +39,8 @@ ffmpeg
 7zip
 inotify-tools
 trash-cli
+brightnessctl
+wireplumber
 
 # Fonts
 ttf-dejavu
