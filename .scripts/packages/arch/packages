@@ -53,10 +53,13 @@ ttf-ibmplex-mono-nerd
 
 # Other packages
 opencode-bin
+crush-bin
 google-chrome
 1password
+1password-cli
 spotify
 spotify-player
 vesktop-bin
 impala
 pantheon-polkit-agent
+docker-compose

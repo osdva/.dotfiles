@@ -8,6 +8,13 @@ set fzf_diff_highlighter delta --paging=never --width=20
 set fzf_fd_opts --hidden --max-depth 5
 set -x FZF_DEFAULT_OPTS_FILE ~/.config/fzf/fzf.conf
 
+# Host-specific exports
+set -l host_name (cat /etc/hostname 2>/dev/null | string trim || echo "unknown")
+set host_rc ~/.dotfiles/hosts/$host_name/fish.local.fish
+if test -f "$host_rc"
+    source "$host_rc"
+end
+
 mise activate fish | source
 zoxide init fish | source
 op completion fish | source
