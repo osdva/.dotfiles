@@ -10,9 +10,13 @@ set -x FZF_DEFAULT_OPTS_FILE ~/.config/fzf/fzf.conf
 
 # Host-specific exports
 set -l host_name (cat /etc/hostname 2>/dev/null | string trim || echo "unknown")
-set host_rc ~/.dotfiles/hosts/$host_name/fish.local.fish
+set host_rc $HOME/.dotfiles/hosts/$host_name/fish.local.fish
+set host_secrets $HOME/.dotfiles/hosts/$host_name/secrets.fish
 if test -f "$host_rc"
     source "$host_rc"
+end
+if test -f "$host_secrets"
+    source "$host_secrets"
 end
 
 mise activate fish | source

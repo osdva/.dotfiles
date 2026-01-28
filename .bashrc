@@ -8,9 +8,13 @@ export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 # Host-specific exports
 HOST_NAME=$(cat /etc/hostname 2>/dev/null | tr -d '\n' || echo "unknown")
-HOST_RC="~/.dotfiles/hosts/$HOST_NAME/.bashrc.local"
+HOST_RC="$HOME/.dotfiles/hosts/$HOST_NAME/.bashrc.local"
+HOST_SECRETS="$HOME/.dotfiles/hosts/$HOST_NAME/.bashrc.secrets"
 if [ -f "$HOST_RC" ]; then
   source "$HOST_RC"
+fi
+if [ -f "$HOST_SECRETS" ]; then
+  source "$HOST_SECRETS"
 fi
 
 if [ -S ~/.1password/agent.sock ]; then
