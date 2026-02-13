@@ -1,5 +1,13 @@
 {
 	"$schema": "https://charm.land/crush.json",
+	"options": {
+		"skills_paths": ["~/.config/crush/skills"],
+		"initialize_as": "AGENTS.md",
+		"attribution": {
+			"trailer_style": "assisted-by",
+			"generated_with": false
+		}
+	},
 	"lsp": {},
 	"mcp": {
 		"context7": {
