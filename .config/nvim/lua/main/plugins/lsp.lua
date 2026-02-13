@@ -3,7 +3,7 @@ local events = require('main.core.events')
 local keys = require('main.core.keymaps')
 
 -- installer
-deps.later(function()
+deps.now(function()
   deps.add({ source = 'mason-org/mason.nvim' })
   require('mason').setup({
     ui = {
@@ -100,68 +100,104 @@ deps.later(function()
     depends = { 'mason-org/mason.nvim' },
   })
 
-  -- LSP server configurations
-  local lsp_configs = {
-    {
-      name = 'lua_ls',
-      root_markers = { '.luarc.json', '.luarc.jsonc', '.git' },
+  -- Single source of truth for LSP + Mason package mapping
+  local lsp_registry = {
+    lua_ls = {
+      mason = 'lua-language-server',
+      config = {},
     },
-    {
-      name = 'cssls',
-      root_markers = { 'package.json', '.git' },
+    cssls = {
+      mason = 'css-lsp',
+      config = {},
     },
-    {
-      name = 'tailwindcss',
-      root_markers = { 'tailwind.config.js', 'tailwind.config.ts', 'tailwind.config.cjs', '.git' },
+    tailwindcss = {
+      mason = 'tailwindcss-language-server',
+      config = {},
     },
-    {
-      name = 'expert',
-      cmd = { 'expert', '--stdio' },
-      filetypes = { 'elixir', 'eelixir', 'heex' },
-      root_markers = { 'mix.exs', '.git' },
+    expert = {
+      mason = 'expert',
+      config = {},
     },
-    {
-      name = 'ts_ls',
-      root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
+    ts_ls = {
+      mason = 'typescript-language-server',
+      config = {},
     },
-    {
-      name = 'vue_ls',
-      root_markers = { 'package.json', '.git' },
+    fish_lsp = {
+      mason = 'fish-lsp',
+      config = {},
+    },
+    jq_lsp = {
+      mason = 'jq-lsp',
+      config = {},
+    },
+    harper_ls = {
+      mason = 'harper-ls',
+      config = {
+        settings = {
+          ['harper-ls'] = {
+            userDictPath = '',
+            workspaceDictPath = '',
+            fileDictPath = '',
+            linters = {
+              SpellCheck = false,
+              SpelledNumbers = false,
+              AnA = true,
+              SentenceCapitalization = false,
+              UnclosedQuotes = true,
+              WrongQuotes = false,
+              LongSentences = true,
+              RepeatedWords = true,
+              Spaces = true,
+              Matcher = true,
+              CorrectNumberSuffix = true,
+            },
+            codeActions = {
+              ForceStable = false,
+            },
+            markdown = {
+              IgnoreLinkTitle = false,
+            },
+            diagnosticSeverity = 'hint',
+            isolateEnglish = false,
+            dialect = 'American',
+            maxFileLength = 120000,
+            ignoredLintsPath = '',
+            excludePatterns = {},
+          },
+        },
+      },
     },
   }
 
-  -- Non-LSP tools (formatters, linters)
-  local formatters_linters = {
+  local non_lsp_tools = {
     'stylua',
     'eslint_d',
     'prettierd',
     'prettier',
     'biome',
+    'jq',
+    'kdlfmt',
+    'shellcheck',
+    'shfmt',
+    'superhtml',
   }
 
-  local lsp_server_names = {}
-  for _, config in ipairs(lsp_configs) do
-    table.insert(lsp_server_names, config.name)
+  local enabled_servers = {}
+  local ensure_installed = vim.list_slice(non_lsp_tools)
+
+  for name, spec in pairs(lsp_registry) do
+    vim.lsp.config(name, spec.config or {})
+    table.insert(enabled_servers, name)
+    if spec.mason then
+      table.insert(ensure_installed, spec.mason)
+    end
   end
 
-  for _, config in ipairs(lsp_configs) do
-    local name = config.name
-
-    local has_lspconfig, lspconfig_mod = pcall(require, 'lspconfig.server_configurations.' .. name)
-    local defaults = has_lspconfig and lspconfig_mod.default_config or {}
-
-    local cfg = vim.tbl_deep_extend('force', {}, defaults, config)
-    cfg.name = nil
-
-    vim.lsp.config(name, cfg)
-  end
-
-  local ensure_installed = vim.list_extend(vim.list_slice(lsp_server_names), formatters_linters)
   require('mason-tool-installer').setup({
     ensure_installed = ensure_installed,
   })
 
-  vim.lsp.enable(lsp_server_names)
+  vim.lsp.enable(enabled_servers)
 
   vim.diagnostic.config({
     underline = false,

@@ -768,6 +768,9 @@ binds {
 }
 environment {
     XDG_CURRENT_DESKTOP "niri"
+    DISPLAY ":0"
+    GDK_BACKEND "wayland"
+    _JAVA_AWT_WM_NONREPARENTING "1"
     QT_QPA_PLATFORM "wayland"
     ELECTRON_OZONE_PLATFORM_HINT "auto"
     QT_QPA_PLATFORMTHEME "gtk3"
@@ -776,4 +779,5 @@ environment {
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-at-startup "dms" "run"
 spawn-sh-at-startup "vicinae server"
+include "dms/cursor.kdl"
 

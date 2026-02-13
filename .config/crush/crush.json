@@ -1,20 +1,16 @@
 {
 	"$schema": "https://charm.land/crush.json",
-	"lsp": {
-		"elixir": {
-			"command": "expert",
-			"args": ["--stdio"]
-		},
-		"typescript": {
-			"command": "typescript-language-server",
-			"args": ["--stdio"]
-		}
-	},
+	"lsp": {},
 	"mcp": {
 		"context7": {
-			"type": "local",
+			"type": "stdio",
 			"command": "npx",
-			"args": ["-y", "@upstash/context7-mcp", "--api-key", "$CONTEXT7_API_KEY"],
+			"args": [
+				"-y",
+				"@upstash/context7-mcp",
+				"--api-key",
+				"$(echo $CONTEXT7_API_KEY)"
+			],
 			"disabled": false
 		}
 	},
@@ -25,6 +21,8 @@
 			"grep",
 			"edit",
 			"curl",
+			"fetch",
+			"bash",
 			"mcp_context7_get-library-doc"
 		]
 	}
