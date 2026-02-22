@@ -11,7 +11,7 @@ deps.later(function()
     default_format_opts = {
       lsp_format = 'fallback',
     },
-    format_on_save = { timeout_ms = 1000 },
+    format_on_save = { timeout_ms = 2000 },
     formatters_by_ft = {
       lua = { 'stylua' },
       elixir = { 'mix' },
@@ -49,6 +49,11 @@ deps.later(function()
           'json',
         },
         stdin = true,
+      },
+      mix = {
+        command = 'mix',
+        args = { 'format', '-' },
+        cwd = require('conform.util').root_file({ 'mix.exs' }),
       },
     },
   })

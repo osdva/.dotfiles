@@ -2,6 +2,10 @@
 \.scripts
 \.cp
 \.templates
+\.crush
+\.opencode
+\.expert
+hosts
 .gitignore
 bootstrap.sh
 README.md

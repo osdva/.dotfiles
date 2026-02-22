@@ -1,7 +1,7 @@
 {
 	"$schema": "https://charm.land/crush.json",
 	"options": {
-		"skills_paths": ["~/.config/crush/skills"],
+		"skills_paths": ["~/.agents/skills"],
 		"initialize_as": "AGENTS.md",
 		"attribution": {
 			"trailer_style": "assisted-by",
