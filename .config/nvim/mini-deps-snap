@@ -1,11 +1,10 @@
 return {
+  ["claude-code.nvim"] = "HEAD",
+  ["opencode.nvim"] = "HEAD",
   ["FixCursorHold.nvim"] = "1900f89dc17c603eec29960f57c00bd9ae696495",
   LuaSnip = "dae4f5aaa3574bd0c2b9dd20fb9542a02c10471c",
-  ["blink-copilot"] = "7ad8209b2f880a2840c94cdcd80ab4dc511d4f39",
   ["blink.cmp"] = "bae4bae0eedd1fa55f34b685862e94a222d5c6f8",
   ["conform.nvim"] = "c2526f1cde528a66e086ab1668e996d162c75f4f",
-  ["copilot-lsp"] = "1b6d8273594643f51bb4c0c1d819bdb21b42159d",
-  ["copilot.lua"] = "2d7511494245129aa6c2176f9c71cc2bc1360ed9",
   ["diffview.nvim"] = "4516612fe98ff56ae0415a259ff6361a89419b0a",
   ["friendly-snippets"] = "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
   ["gitsigns.nvim"] = "abf82a65f185bd54adc0679f74b7d6e1ada690c9",

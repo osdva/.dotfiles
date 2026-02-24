@@ -20,7 +20,7 @@ end)
 deps.later(function()
   deps.add({
     source = 'saghen/blink.cmp',
-    depends = { 'fang2hou/blink-copilot', 'rafamadriz/friendly-snippets', 'L3MON4D3/LuaSnip' },
+    depends = { 'rafamadriz/friendly-snippets', 'L3MON4D3/LuaSnip' },
     monitor = 'main',
     checkout = 'v1.6.0',
   })
@@ -30,7 +30,6 @@ deps.later(function()
     appearance = {
       nerd_font_variant = 'mono',
       kind_icons = {
-        Copilot = '',
         Text = '󰉿',
         Method = '󰊕',
         Function = '󰊕',
@@ -74,18 +73,12 @@ deps.later(function()
       preset = 'luasnip',
     },
     sources = {
-      default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+      default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
       providers = {
         lazydev = {
           name = 'LazyDev',
           module = 'lazydev.integrations.blink',
           score_offset = 100,
-        },
-        copilot = {
-          name = 'copilot',
-          module = 'blink-copilot',
-          score_offset = 100,
-          async = true,
         },
       },
     },
