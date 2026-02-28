@@ -1,5 +1,6 @@
 {
-  "lastChangelogVersion": "0.54.2",
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.3-codex"
+  "lastChangelogVersion": "0.55.3",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "kimi-k2.5",
+  "defaultThinkingLevel": "off"
 }

@@ -1,0 +1,25 @@
+{
+	"providers": {
+		"opencode-go": {
+			"baseUrl": "https://opencode.ai/zen/go/v1",
+			"api": "openai-completions",
+			"apiKey": "!op read \"${OPENCODE_OP_REFERENCE:-op://Private/API-Keys/OPENCODE_API_KEY}\"",
+			"authHeader": true,
+			"models": [
+				{
+					"id": "kimi-k2.5",
+					"name": "Kimi K2.5 (OpenCode Go)"
+				},
+				{
+					"id": "glm-5",
+					"name": "GLM-5 (OpenCode Go)"
+				},
+				{
+					"id": "minimax-m2.5",
+					"name": "MiniMax M2.5 (OpenCode Go)",
+					"api": "anthropic-messages"
+				}
+			]
+		}
+	}
+}
