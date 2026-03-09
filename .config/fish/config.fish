@@ -1,6 +1,7 @@
 # Sets
 set -g fish_greeting
 set --global fish_key_bindings fish_default_key_bindings
+set -gx EDITOR nvim
 
 # fzf
 fzf_configure_bindings --directory=\cf --git_status=\cs --processes=\cp
@@ -20,6 +21,7 @@ if test -f "$host_secrets"
 end
 
 mise activate fish | source
+fzf --fish | source
 zoxide init fish | source
 op completion fish | source
 eval (tmuxifier init - fish)

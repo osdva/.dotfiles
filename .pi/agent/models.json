@@ -16,8 +16,7 @@
 				},
 				{
 					"id": "minimax-m2.5",
-					"name": "MiniMax M2.5 (OpenCode Go)",
-					"api": "anthropic-messages"
+					"name": "MiniMax M2.5 (OpenCode Go)"
 				}
 			]
 		}

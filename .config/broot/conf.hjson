@@ -24,7 +24,7 @@
 # you can launch broot with `br -H`).
 # A popular flag is the `g` one which displays git related info.
 #
-default_flags: -gh
+default_flags: -ghIs
 
 ###############################################################
 # Terminal's title
@@ -110,6 +110,7 @@ icon_theme: nerdfont
 #  (they're otherwise not entered by broot unless selected)
 #
 special_paths: {
+    ".git" : { "show": "never" }
     "/media" : {
         list: "never"
         sum: "never"
