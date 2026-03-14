@@ -317,7 +317,7 @@ binds {
     }
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal" {
-        spawn "kitty"
+        spawn "ghostty"
     }
     Mod+B hotkey-overlay-title="Open browser" {
         spawn "app.zen_browser.zen"

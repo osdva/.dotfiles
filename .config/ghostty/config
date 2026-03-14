@@ -3,3 +3,4 @@ theme = Kanagawa Dragon
 macos-option-as-alt = true
 gtk-titlebar = false
 shell-integration = zsh
+keybind = shift+ctrl+control_right=text:?
