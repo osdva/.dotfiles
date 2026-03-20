@@ -2,5 +2,5 @@ font-family = "CommitMono Nerd Font"
 theme = Kanagawa Dragon
 macos-option-as-alt = true
 gtk-titlebar = false
-shell-integration = zsh
+shell-integration = fish
 keybind = shift+ctrl+control_right=text:?

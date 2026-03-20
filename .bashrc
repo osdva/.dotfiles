@@ -7,6 +7,7 @@ export PATH="$PNPM_HOME:$PATH"
 export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/share/mise/shims:$PATH"
+export PATH="$HOME/.config/emacs/bin:$PATH"
 
 # Host-specific exports
 HOST_NAME=$(cat /etc/hostname 2>/dev/null | tr -d '\n' || echo "unknown")

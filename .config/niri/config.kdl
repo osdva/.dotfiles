@@ -264,13 +264,8 @@ animations {
 // Work around WezTerm's initial configure bug
 // by setting an empty default-column-width.
 window-rule {
-    // This regular expression is intentionally made as specific as possible,
-    // since this is the default config, and we want no false positives.
-    // You can get away with just app-id="wezterm" if you want.
-    match app-id="^org\\.wezfurlong\\.wezterm$"
-    default-column-width {
-
-    }
+    match app-id="emacs"
+    open-maximized true
 }
 // Open the Google Chrome picture-in-picture player as floating by default.
 window-rule {
@@ -319,11 +314,17 @@ binds {
     Mod+T hotkey-overlay-title="Open a Terminal" {
         spawn "ghostty"
     }
+    Mod+E hotkey-overlay-title="Open Emacs" {
+        spawn "emacs"
+    }
     Mod+B hotkey-overlay-title="Open browser" {
         spawn "app.zen_browser.zen"
     }
     Mod+P hotkey-overlay-title="Open password manager" {
         spawn "1password"
+    }
+    Mod+N hotkey-overlay-title="Open obsidian" {
+        spawn "obsidian"
     }
     Mod+Space repeat=false {
         spawn "vicinae" "toggle"
