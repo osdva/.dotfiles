@@ -61,5 +61,5 @@ spotify
 spotify-player
 vesktop-bin
 impala
-pantheon-polkit-agent
+polkit-gnome
 docker-compose
