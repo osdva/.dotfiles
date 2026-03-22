@@ -263,10 +263,6 @@ animations {
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 // Work around WezTerm's initial configure bug
 // by setting an empty default-column-width.
-window-rule {
-    match app-id="emacs"
-    open-maximized true
-}
 // Open the Google Chrome picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:
@@ -314,8 +310,8 @@ binds {
     Mod+T hotkey-overlay-title="Open a Terminal" {
         spawn "ghostty"
     }
-    Mod+E hotkey-overlay-title="Open Emacs" {
-        spawn "emacs"
+    Mod+E hotkey-overlay-title="Open Explorer" {
+        spawn "nautilus"
     }
     Mod+B hotkey-overlay-title="Open browser" {
         spawn "app.zen_browser.zen"
