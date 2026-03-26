@@ -41,6 +41,7 @@ inotify-tools
 trash-cli
 brightnessctl
 wireplumber
+rclone
 
 # Fonts
 ttf-dejavu
@@ -53,8 +54,7 @@ ttf-ibmplex-mono-nerd
 
 # Other packages
 opencode-bin
-crush-bin
-google-chrome
+vivaldi
 1password
 1password-cli
 spotify

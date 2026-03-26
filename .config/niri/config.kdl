@@ -258,6 +258,10 @@ animations {
     // slowdown 3.0
 
 }
+window-rule {
+    match app-id="spotify"
+    open-maximized true
+}
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
@@ -314,13 +318,16 @@ binds {
         spawn "nautilus"
     }
     Mod+B hotkey-overlay-title="Open browser" {
-        spawn "app.zen_browser.zen"
+        spawn "vivaldi"
     }
     Mod+P hotkey-overlay-title="Open password manager" {
         spawn "1password"
     }
     Mod+N hotkey-overlay-title="Open obsidian" {
         spawn "obsidian"
+    }
+    Mod+M hotkey-overlay-title="Open music player" {
+        spawn "spotify"
     }
     Mod+Space repeat=false {
         spawn "vicinae" "toggle"
@@ -780,5 +787,6 @@ environment {
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-at-startup "dms" "run"
 spawn-sh-at-startup "vicinae server"
-include "dms/cursor.kdl"
+spawn-at-startup "/usr/lib/soteria-polkit/soteria"
+include "dms/outputs.kdl"
 

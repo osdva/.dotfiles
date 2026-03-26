@@ -1,0 +1,23 @@
+[Unit]
+Description=rclone: Remote FUSE filesystem for Google Drive
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=osdva
+Group=osdva
+ExecStart=/usr/bin/rclone mount gdrive: /home/osdva/gdrive \
+  --config=/home/osdva/.config/rclone/rclone.conf \
+  --vfs-cache-mode full \
+  --vfs-cache-max-age 100h \
+  --vfs-cache-max-size 10G \
+  --vfs-read-chunk-size 32M \
+  --vfs-read-ahead 256M \
+  --buffer-size 32M
+ExecStop=/bin/fusermount -u /home/osdva/gdrive
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
