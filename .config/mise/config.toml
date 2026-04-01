@@ -1,0 +1,12 @@
+[settings]
+experimental = true
+legacy_version_file = true
+
+[tools]
+elixir = "latest"
+erlang = "latest"
+go = "latest"
+node = "latest"
+pnpm = "latest"
+usage = "latest"
+uv = "latest"

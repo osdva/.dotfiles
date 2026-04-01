@@ -6,9 +6,10 @@
 			"reasoningEffort": "high"
 		},
 		"build": {
-			"model": "synthetic/hf:moonshotai/Kimi-K2.5"
+			"model": "opencode-go/kimi-k2.5"
 		}
 	},
+	"enabled_providers": ["openai", "opencode-go"],
 	"mcp": {
 		"context7": {
 			"type": "remote",

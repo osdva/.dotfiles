@@ -14,7 +14,11 @@ paru -S --needed --noconfirm ly
 sudo systemctl enable ly@tty2.service
 
 log_info "Installing desktop shell..."
-paru -S --needed --noconfirm dms-shell-bin matugen
+paru -S --needed --noconfirm noctalia-shell matugen
+
+log_info "Installing network manager..."
+paru -S --needed --noconfirm networkmanager
+sudo systemctl enable --now NetworkManager.service
 
 log_info "Installing launcher..."
 paru -S --needed --noconfirm vicinae-bin
