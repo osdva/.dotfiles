@@ -1,0 +1,6 @@
+# Ignore everything
+*
+
+# But allow the ssh folder and its contents
+!ssh/
+!ssh/**

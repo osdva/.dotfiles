@@ -89,7 +89,7 @@ binds {
         spawn "nautilus"
     }
     Mod+B hotkey-overlay-title="Open browser" {
-        spawn "vivaldi"
+        spawn "zen-browser"
     }
     Mod+P hotkey-overlay-title="Open password manager" {
         spawn "1password"
@@ -98,13 +98,13 @@ binds {
         spawn "obsidian"
     }
     Mod+M hotkey-overlay-title="Open music player" {
-        spawn "spotify"
+        spawn "qbz"
     }
     Mod+Space repeat=false {
         spawn "vicinae" "toggle"
     }
     Mod+Alt+L hotkey-overlay-title="Lock Screen" {
-        spawn-sh "qs -c noctalia-shell ipc call lockScreen lock"
+        spawn-sh "dms ipc call lock lock"
     }
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null {
         spawn-sh "pkill orca || exec orca"
@@ -445,11 +445,8 @@ binds {
     Mod+Shift+P {
         power-off-monitors
     }
-    Mod+S {
-        spawn-sh "qs -c noctalia-shell ipc call controlCenter toggle"
-    }
     Mod+Shift+Comma {
-        spawn-sh "qs -c noctalia-shell ipc call settings toggle"
+        spawn-sh "dms ipc call settings focusOrToggle"
     }
 }
 environment {
@@ -465,7 +462,13 @@ environment {
     QT_IM_MODULE "ibus"
     XMODIFIERS "@im=ibus"
 }
+spawn-at-startup "dms" "run"
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-sh-at-startup "vicinae server"
-spawn-at-startup "qs" "-c" "noctalia-shell"
+include "dms/colors.kdl"
+include "dms/layout.kdl"
+include "dms/alttab.kdl"
+include "dms/binds.kdl"
+include "dms/cursor.kdl"
+include "dms/outputs.kdl"
 
