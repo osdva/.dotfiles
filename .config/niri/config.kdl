@@ -1,8 +1,8 @@
 input {
     keyboard {
         xkb {
-            layout "br"
-            variant "thinkpad"
+            layout "br,us"
+            variant "thinkpad,"
         }
         numlock
     }
