@@ -13,6 +13,7 @@ starship
 fastfetch
 tmux
 glow
+direnv
 
 # Terminal emulators
 ghostty
