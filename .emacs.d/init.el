@@ -13,8 +13,11 @@
 ;    '(read-only t cursor-intangible t face minibuffer-prompt)))
 
 (elpaca-wait)
-(require 'm-completion)
+(require 'm-editor)
 (require 'm-theme)
+(require 'm-treesitter)
+(require 'm-modes)
+(require 'm-completion)
 
 (provide 'init)
 

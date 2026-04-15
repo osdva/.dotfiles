@@ -188,9 +188,7 @@ deps.later(function()
   for name, spec in pairs(lsp_registry) do
     vim.lsp.config(name, spec.config or {})
     table.insert(enabled_servers, name)
-    if spec.mason then
-      table.insert(ensure_installed, spec.mason)
-    end
+    if spec.mason then table.insert(ensure_installed, spec.mason) end
   end
 
   require('mason-tool-installer').setup({

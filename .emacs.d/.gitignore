@@ -1,3 +1,4 @@
-elpaca/
-eln-cache/
-auto-save-list/
+*
+!init.el
+!early-init.el
+!lisp/**
