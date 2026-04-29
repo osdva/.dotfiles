@@ -3,6 +3,7 @@ experimental = true
 legacy_version_file = true
 
 [tools]
+deno = "latest"
 elixir = "latest"
 erlang = "latest"
 go = "latest"

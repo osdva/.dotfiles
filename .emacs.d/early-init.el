@@ -1,15 +1,28 @@
 ;;; early-init.el --- early init -*- lexical-binding: t; -*-
 
-;;; Performance
+;; Performance
 (setq gc-cons-threshold #x40000000)
 (setq read-process-output-max (* 4 1024 1024))
 (setq native-comp-jit-compilation nil)
 
-;; Prevent package.el from auto-initializing
+;; Disable file handlers for a faster startup
+(defvar m/startup-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
+;; Reset GC threshold after startup to prevent long pauses
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq file-name-handler-alist m/startup-file-name-handler-alist
+                  native-comp-jit-compilation t
+                  gc-cons-threshold (* 64 1024 1024)
+                  gc-cons-percentage 0.1)))
+
+;; Prevent package.el from auto-initializing (using Elpaca instead)
 (setq package-enable-at-startup nil)
 
 ;; Disable expensive GUI elements early
-(setq inhibit-startup-screen t
+(setq default-directory "~/"
+      inhibit-startup-screen t
       inhibit-startup-message t
       inhibit-startup-echo-area-message user-login-name
       initial-scratch-message nil
@@ -24,8 +37,11 @@
                 (internal-border-width . 0)) 
               default-frame-alist))
 
+;; Prevent frame resize during startup
+(setq frame-inhibit-implied-resize t)
+
 ;; Rendering optimizations
-(setq-default bidi-display-reordering 'left-to-right
+(setq-default bidi-display-reordering nil
               bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
 (setq redisplay-skip-fontification-on-input t)

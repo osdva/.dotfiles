@@ -19,12 +19,6 @@ input {
     warp-mouse-to-focus
     focus-follows-mouse max-scroll-amount="90%"
 }
-output "eDP-1" {
-    mode "1920x2000@60"
-    scale 1
-    transform "normal"
-    position x=0 y=0
-}
 prefer-no-csd
 layout {
     gaps 5
@@ -471,6 +465,5 @@ include "dms/alttab.kdl"
 include "dms/binds.kdl"
 include "dms/cursor.kdl"
 include "dms/outputs.kdl"
-
-
 include "dms/windowrules.kdl"
+

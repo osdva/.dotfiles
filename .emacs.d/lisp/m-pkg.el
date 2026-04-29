@@ -39,10 +39,13 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
-(elpaca elpaca-use-package
-  (elpaca-use-package-mode))
+(if (require 'elpaca-use-package nil t)
+    (elpaca-use-package-mode)
+  (elpaca elpaca-use-package
+    (require 'elpaca-use-package)
+    (elpaca-use-package-mode))
+  (elpaca-wait))
 
-(elpaca-wait)
 (setq use-package-always-defer t
       use-package-always-ensure t
       use-package-expand-minimally t
