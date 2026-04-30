@@ -13,4 +13,4 @@
 [commit]
 	gpgsign = true
 [tag]
-	gpgSign = true
+	gpgsign = true

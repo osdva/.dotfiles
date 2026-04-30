@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Bootstrap script for fresh system installation
-# Usage: sh ./bootstrap.sh <arch|darwin>
+# Usage: sh ./bootstrap.sh <arch|fedora|darwin>
 
 set -e
 
@@ -12,12 +12,13 @@ readonly BLUE='\033[0;34m'
 readonly NC='\033[0m'
 
 print_usage() {
-  echo "Usage: $0 <arch|darwin>"
+  echo "Usage: $0 <arch|fedora|darwin>"
   echo ""
   echo "Bootstrap a fresh system installation"
   echo ""
   echo "Arguments:"
   echo "  arch    - Bootstrap Arch Linux system"
+  echo "  fedora  - Bootstrap Fedora Linux system"
   echo "  darwin  - Bootstrap macOS (Darwin) system"
   exit 1
 }
@@ -27,6 +28,24 @@ print_header() {
   echo -e "${BLUE}  Dotfiles Bootstrap${NC}"
   echo -e "${BLUE}================================================${NC}"
   echo ""
+}
+
+keep_sudo_alive() {
+  if ! command -v sudo &>/dev/null; then
+    return 0
+  fi
+
+  echo -e "${BLUE}Requesting sudo once for bootstrap...${NC}"
+  sudo -v
+
+  (
+    while true; do
+      sudo -n -v 2>/dev/null || exit
+      sleep 60
+    done
+  ) &
+  SUDO_KEEPALIVE_PID=$!
+  trap '[[ -n "${SUDO_KEEPALIVE_PID:-}" ]] && kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true' EXIT
 }
 
 run_scripts() {
@@ -79,7 +98,7 @@ main() {
   local system="$1"
   
   # Validate system argument
-  if [[ "$system" != "arch" && "$system" != "darwin" ]]; then
+  if [[ "$system" != "arch" && "$system" != "fedora" && "$system" != "darwin" ]]; then
     echo -e "${RED}Error: Invalid system '$system'${NC}" >&2
     echo ""
     print_usage
@@ -89,6 +108,9 @@ main() {
   
   echo -e "${BLUE}System: $system${NC}"
   echo ""
+
+  # Ask for sudo once and keep the timestamp fresh while scripts run.
+  keep_sudo_alive
   
   # Run the setup scripts
   run_scripts "$system"
@@ -99,7 +121,7 @@ main() {
   echo -e "${GREEN}================================================${NC}"
   echo ""
   echo "Next steps:"
-  echo "  1. Restart your shell or run: exec zsh"
+  echo "  1. Restart your shell or run: exec bash"
   echo "  2. Open tmux and press Ctrl+A + I to install plugins"
   echo "  3. Run 'nvim' to let plugins install automatically"
   echo ""

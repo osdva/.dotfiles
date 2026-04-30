@@ -1,0 +1,58 @@
+# Shell tools
+neovim
+bat
+eza
+zoxide
+fzf
+fd-find
+ripgrep
+jq
+starship
+fastfetch
+tmux
+glow
+direnv
+
+# Terminal emulators
+ghostty
+kitty
+
+# Development tools
+gitui
+lazygit
+podman
+podman-compose
+podman-docker
+just
+mise
+1password
+1password-cli
+
+# System utilities
+usbutils
+wl-clipboard
+cliphist
+ffmpeg
+7zip
+inotify-tools
+trash-cli
+brightnessctl
+wireplumber
+rclone
+tailscale
+flatpak
+
+# Fonts
+dejavu-sans-fonts
+dejavu-serif-fonts
+dejavu-sans-mono-fonts
+liberation-sans-fonts
+liberation-serif-fonts
+liberation-mono-fonts
+google-noto-sans-fonts
+google-noto-emoji-fonts
+google-noto-color-emoji-fonts
+ibm-plex-mono-fonts
+
+# Other packages
+docker-compose
