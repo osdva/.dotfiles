@@ -103,7 +103,7 @@ binds {
         spawn "vicinae" "toggle"
     }
     Mod+Alt+L hotkey-overlay-title="Lock Screen" {
-        spawn-sh "dms ipc call lock lock"
+        spawn-sh "qs -c noctalia-shell ipc call lockScreen lock"
     }
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null {
         spawn-sh "pkill orca || exec orca"
@@ -445,7 +445,7 @@ binds {
         power-off-monitors
     }
     Mod+Shift+Comma {
-        spawn-sh "dms ipc call settings focusOrToggle"
+        spawn-sh "qs -c noctalia-shell ipc call settings toggle"
     }
 }
 environment {

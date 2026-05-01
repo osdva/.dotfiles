@@ -13,8 +13,8 @@ log_info "Installing ly..."
 paru -S --needed --noconfirm ly
 sudo systemctl enable ly@tty2.service
 
-log_info "Installing desktop shell..."
-paru -S --needed --noconfirm dms-shell dms-shell-niri matugen pam-u2f quickshell-git
+log_info "Installing Noctalia shell..."
+paru -S --needed --noconfirm noctalia-shell matugen pam-u2f
 
 log_info "Installing network manager..."
 paru -S --needed --noconfirm networkmanager
