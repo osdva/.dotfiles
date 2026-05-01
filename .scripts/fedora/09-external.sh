@@ -3,10 +3,14 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
+source "$SCRIPT_DIR/../lib/fedora.sh"
 
 export PATH="$HOME/.opencode/bin:$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
 
 log_header "Installing/Updating External Tools"
+
+log_info "Enabling Zen Browser COPR repository..."
+sudo dnf copr enable -y sneexy/zen-browser
 
 confirm_install_or_update() {
   local command_name="$1"

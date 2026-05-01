@@ -7,24 +7,19 @@ source "$SCRIPT_DIR/../lib/fedora.sh"
 
 log_header "Fedora Cleanup"
 
-if ! confirm "Remove unused Fedora/GNOME packages before installing dotfiles packages?"; then
+if ! confirm "Remove unused Fedora/GNOME packages now that setup is complete?"; then
   log_info "Skipping Fedora cleanup"
   exit 0
 fi
 
-# Mark the GNOME pieces we still want to keep as user-installed so autoremove
-# does not prune the display manager, file manager, settings, or auth/keyring bits.
+# Mark the desktop/session pieces we still want to keep as user-installed so
+# autoremove does not prune the display manager, file manager, or auth/keyring bits.
 keep_packages=(
-  gdm
+  greetd
+  tuigreet
   nautilus
-  gnome-shell
-  gnome-session
-  gnome-session-wayland-session
-  gnome-control-center
-  gnome-settings-daemon
   gnome-keyring
   gnome-keyring-pam
-  gnome-online-accounts
   xdg-desktop-portal-gnome
 )
 
@@ -36,11 +31,18 @@ for pkg in "${keep_packages[@]}"; do
 done
 
 if [[ ${#installed_keep[@]} -gt 0 ]]; then
-  log_info "Marking essential GNOME packages to keep..."
+  log_info "Marking essential desktop packages to keep..."
   sudo dnf -y mark user "${installed_keep[@]}" || log_warn "Could not mark some packages as user-installed"
 fi
 
 cleanup_packages=(
+  gdm
+  gnome-shell
+  gnome-session
+  gnome-session-wayland-session
+  gnome-control-center
+  gnome-settings-daemon
+  gnome-online-accounts
   baobab
   cheese
   evince
@@ -97,7 +99,10 @@ if [[ ${#installed_cleanup[@]} -eq 0 ]]; then
   log_info "No cleanup packages are installed"
 else
   log_info "Removing ${#installed_cleanup[@]} unused package(s)..."
-  sudo dnf remove -y "${installed_cleanup[@]}"
+  # Fedora Workstation protects gnome-shell by default. We intentionally clear
+  # protected_packages for this exact cleanup transaction because greetd/tuigreet
+  # replaces the GNOME Shell/GDM login path.
+  sudo dnf remove -y --setopt=protected_packages= "${installed_cleanup[@]}"
 fi
 
 if [[ "${RUN_DNF_AUTOREMOVE:-}" == "1" || "${RUN_DNF_AUTOREMOVE:-}" == "true" ]]; then

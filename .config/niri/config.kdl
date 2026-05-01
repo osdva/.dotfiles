@@ -20,6 +20,11 @@ input {
     focus-follows-mouse max-scroll-amount="90%"
 }
 prefer-no-csd
+output "eDP-1" {
+    mode "1920x1200@60.001"
+    scale 1
+    position x=0 y=0
+}
 layout {
     gaps 5
     background-color "transparent"
@@ -456,14 +461,7 @@ environment {
     QT_IM_MODULE "ibus"
     XMODIFIERS "@im=ibus"
 }
-spawn-at-startup "dms" "run"
+spawn-at-startup "qs" "-c" "noctalia-shell"
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-sh-at-startup "vicinae server"
-include "dms/colors.kdl"
-include "dms/layout.kdl"
-include "dms/alttab.kdl"
-include "dms/binds.kdl"
-include "dms/cursor.kdl"
-include "dms/outputs.kdl"
-include "dms/windowrules.kdl"
 

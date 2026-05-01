@@ -20,7 +20,7 @@ fi
 
 setup_fingerprint=false
 if confirm "Setup fingerprint reader (fprintd)?"; then
-  packages+=(fprintd)
+  packages+=(fprintd fprintd-pam)
   setup_fingerprint=true
 fi
 
@@ -76,15 +76,17 @@ if [[ "$setup_fingerprint" == "true" ]]; then
   echo
   log_header "Fingerprint Enrollment"
   log_info "Starting fingerprint enrollment..."
-  fprintd-enroll || true
-  fprintd-verify || true
+  sudo fprintd-enroll "$USER" || log_warn "Fingerprint enrollment failed"
+  sudo fprintd-verify "$USER" || log_warn "Fingerprint verification failed"
 
   if command -v authselect &>/dev/null; then
     log_info "Enabling Fedora fingerprint auth profile..."
     sudo authselect enable-feature with-fingerprint || log_warn "Could not enable authselect fingerprint feature"
+    sudo authselect apply-changes -b || log_warn "Could not apply authselect changes"
   else
     log_warn "authselect not found; configure PAM fingerprint auth manually"
   fi
 
   log_success "Fingerprint setup complete"
+  log_info "Fingerprint auth is enabled through PAM/authselect; greetd uses /etc/pam.d/greetd."
 fi
