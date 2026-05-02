@@ -1,8 +1,8 @@
 #%PAM-1.0
 
 auth       [success=1 default=ignore]  pam_succeed_if.so    service in sudo:su:su-l tty in :unknown
-auth      sufficient pam_unix.so try_first_pass likeauth nullok
 auth      sufficient pam_fprintd.so
+auth      sufficient pam_unix.so try_first_pass likeauth nullok
 auth      include   system-login
 account   include   system-login
 password  include   system-login

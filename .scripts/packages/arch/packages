@@ -43,6 +43,8 @@ trash-cli
 brightnessctl
 wireplumber
 rclone
+gnome-keyring
+seahorse
 
 # Fonts
 ttf-dejavu
@@ -64,3 +66,6 @@ vesktop-bin
 impala
 polkit-gnome
 docker-compose
+resources
+flatpak
+obsidian
