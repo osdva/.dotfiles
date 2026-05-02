@@ -74,46 +74,15 @@ else
   done
 fi
 
-if [[ -d "$DOTFILES_DIR/.cp/pam.d" ]]; then
-  log_info "Installing PAM fingerprint config..."
+if [[ -d "$DOTFILES_DIR/.cp/pam.d" && -d "$DOTFILES_DIR/.cp/ly" ]]; then
+  log_info "Installing PAM configs and ly config..."
   sudo cp "$DOTFILES_DIR/.cp/pam.d/system-local-login" /etc/pam.d/system-local-login
   sudo cp "$DOTFILES_DIR/.cp/pam.d/polkit-1" /etc/pam.d/polkit-1
-  log_success "PAM configuration updated"
+  sudo cp "$DOTFILES_DIR/.cp/pam.d/ly" /etc/pam.d/ly
+  sudo cp "$DOTFILES_DIR/.cp/ly/config.ini" /etc/ly/config.ini
+  log_success "PAM and ly config installed"
 else
-  log_warn "PAM config directory not found: $DOTFILES_DIR/.cp/pam.d"
-fi
-
-set_ly_config_value() {
-  local key="$1"
-  local value="$2"
-  local file="/etc/ly/config.ini"
-
-  if sudo grep -Eq "^[#[:space:]]*${key}[[:space:]]*=" "$file"; then
-    sudo sed -i -E "s|^[#[:space:]]*${key}[[:space:]]*=.*|${key} = ${value}|" "$file"
-  else
-    echo "${key} = ${value}" | sudo tee -a "$file" >/dev/null
-  fi
-}
-
-if [[ -f /etc/ly/config.ini ]]; then
-  log_info "Configuring ly to focus the password/fingerprint input..."
-  set_ly_config_value "default_input" "password"
-  set_ly_config_value "save" "true"
-  log_success "ly fingerprint input configured"
-else
-  log_warn "ly config not found: /etc/ly/config.ini"
-fi
-
-if [[ -f /etc/pam.d/ly ]]; then
-  log_info "Configuring ly PAM for GNOME Keyring..."
-  sudo sed -i -E \
-    -e 's/^-auth([[:space:]]+optional[[:space:]]+pam_gnome_keyring\.so.*)$/auth\1/' \
-    -e 's/^-password([[:space:]]+optional[[:space:]]+pam_gnome_keyring\.so.*)$/password\1/' \
-    -e 's/^-session([[:space:]]+optional[[:space:]]+pam_gnome_keyring\.so.*)$/session\1/' \
-    /etc/pam.d/ly
-  log_success "ly PAM configured"
-else
-  log_warn "ly PAM config not found: /etc/pam.d/ly"
+  log_warn "Config directories not found: $DOTFILES_DIR/.cp/pam.d or $DOTFILES_DIR/.cp/ly"
 fi
 
 if [[ -f "$DOTFILES_DIR/.cp/systemd/system/kill-fprintd.service" ]]; then
