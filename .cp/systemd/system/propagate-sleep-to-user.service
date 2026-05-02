@@ -1,0 +1,11 @@
+[Unit]
+Description=Propagate sleep targets to user session
+Before=sleep.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target suspend.target
+StopWhenUnneeded=yes
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl --user --machine=osdva@ start sleep.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target
+
+[Install]
+WantedBy=sleep.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target suspend.target

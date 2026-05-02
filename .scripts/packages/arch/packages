@@ -16,7 +16,6 @@ glow
 direnv
 
 # Terminal emulators
-ghostty
 kitty
 
 # Development tools

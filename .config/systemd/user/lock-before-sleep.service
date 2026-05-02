@@ -1,0 +1,13 @@
+[Unit]
+Description=Lock screen before sleep/hibernate
+Before=sleep.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target
+StopWhenUnneeded=yes
+
+[Service]
+Type=oneshot
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/env qs -c noctalia-shell ipc call lockScreen lock
+ExecStartPost=/usr/bin/env sleep 0.5
+
+[Install]
+WantedBy=sleep.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target

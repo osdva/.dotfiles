@@ -85,14 +85,4 @@ else
   log_warn "Config directories not found: $DOTFILES_DIR/.cp/pam.d or $DOTFILES_DIR/.cp/ly"
 fi
 
-if [[ -f "$DOTFILES_DIR/.cp/systemd/system/kill-fprintd.service" ]]; then
-  log_info "Installing kill-fprintd sleep hook..."
-  sudo cp "$DOTFILES_DIR/.cp/systemd/system/kill-fprintd.service" /etc/systemd/system/kill-fprintd.service
-  sudo systemctl daemon-reload
-  sudo systemctl enable kill-fprintd.service
-  log_success "kill-fprintd sleep hook installed"
-else
-  log_warn "kill-fprintd service not found"
-fi
-
 log_success "Fingerprint setup complete"

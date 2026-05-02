@@ -226,6 +226,20 @@ install_systemd_hibernate_configs() {
     sudo cp "$DOTFILES_DIR/.cp/systemd/sleep.conf.d/"*.conf /etc/systemd/sleep.conf.d/
     log_success "Installed systemd sleep hibernation config"
   fi
+
+  if [[ -d "$DOTFILES_DIR/.cp/systemd/system" ]]; then
+    sudo mkdir -p /etc/systemd/system
+    for svc in "$DOTFILES_DIR/.cp/systemd/system/"*.service; do
+      [[ -f "$svc" ]] && sudo cp "$svc" /etc/systemd/system/
+      log_success "Installed system service: $(basename "$svc")"
+    done
+    sudo systemctl daemon-reload
+    for svc in "$DOTFILES_DIR/.cp/systemd/system/"*.service; do
+      [[ -f "$svc" ]] && sudo systemctl enable "$(basename "$svc")"
+    done
+  fi
+
+  systemctl --user enable lock-before-sleep.service
 }
 
 swap_path="$(choose_swap_device)"

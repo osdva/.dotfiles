@@ -1,2 +1,5 @@
-default.target.wants/
-graphical-session.target.wants/
+*
+!*.service
+!*.socket
+!*.target
+!.*

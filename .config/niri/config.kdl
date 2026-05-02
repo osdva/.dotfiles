@@ -82,7 +82,7 @@ binds {
         show-hotkey-overlay
     }
     Mod+T hotkey-overlay-title="Open a Terminal" {
-        spawn "ghostty"
+        spawn "kitty"
     }
     Mod+E hotkey-overlay-title="Open Explorer" {
         spawn "nautilus"
