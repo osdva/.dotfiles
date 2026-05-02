@@ -3,6 +3,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
+source "$SCRIPT_DIR/../lib/packages.sh"
 
 log_header "Setting up system packages"
 
@@ -23,8 +24,15 @@ sudo systemctl enable --now NetworkManager.service
 log_info "Installing launcher..."
 paru -S --needed --noconfirm vicinae-bin
 
-log_info "Cleaning up niri dependencies..."
+log_info "Cleaning up unwanted niri dependencies..."
 
-paru -Rsn --noconfirm waybar fuzzel swaylock
+unwanted_packages=(waybar fuzzel swaylock)
+mapfile -t installed_unwanted < <(installed_packages "${unwanted_packages[@]}")
+
+if [[ ${#installed_unwanted[@]} -gt 0 ]]; then
+  paru -Rsn --noconfirm "${installed_unwanted[@]}"
+else
+  log_info "No unwanted niri dependencies installed"
+fi
 
 log_success "System packages installed"

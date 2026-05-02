@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
 
-# Bootstrap script for fresh system installation
-# Usage: sh ./bootstrap.sh <arch|darwin>
+# Post-install script for setup that should run after first login/session
+# Usage: bash ./post-install.sh <arch|darwin>
 
 set -e
 
-# Colors for output
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
 readonly BLUE='\033[0;34m'
+readonly YELLOW='\033[1;33m'
 readonly NC='\033[0m'
 
 print_usage() {
   echo "Usage: $0 <arch|darwin>"
   echo ""
-  echo "Bootstrap a fresh system installation"
+  echo "Run post-install scripts after bootstrap has completed"
   echo ""
   echo "Arguments:"
-  echo "  arch    - Bootstrap Arch Linux system"
-  echo "  darwin  - Bootstrap macOS (Darwin) system"
+  echo "  arch    - Run Arch Linux post-install scripts"
+  echo "  darwin  - Run macOS (Darwin) post-install scripts"
   exit 1
 }
 
 print_header() {
   echo -e "${BLUE}================================================${NC}"
-  echo -e "${BLUE}  Dotfiles Bootstrap${NC}"
+  echo -e "${BLUE}  Dotfiles Post Install${NC}"
   echo -e "${BLUE}================================================${NC}"
   echo ""
 }
@@ -34,7 +34,7 @@ keep_sudo_alive() {
     return 0
   fi
 
-  echo -e "${BLUE}Requesting sudo once for bootstrap...${NC}"
+  echo -e "${BLUE}Requesting sudo once for post-install...${NC}"
   sudo -v
 
   (
@@ -49,33 +49,32 @@ keep_sudo_alive() {
 
 run_scripts() {
   local system="$1"
-  local scripts_dir=".scripts/$system"
-  
+  local scripts_dir=".scripts/$system/post-install"
+
   if [[ ! -d "$scripts_dir" ]]; then
-    echo -e "${RED}Error: Scripts directory not found: $scripts_dir${NC}" >&2
-    exit 1
+    echo -e "${YELLOW}No post-install directory found: $scripts_dir${NC}"
+    return 0
   fi
-  
-  # Find all .sh files and sort them
+
   local scripts=()
   while IFS= read -r -d '' script; do
     scripts+=("$script")
   done < <(find "$scripts_dir" -maxdepth 1 -name "*.sh" -type f -print0 | sort -z)
-  
+
   if [[ ${#scripts[@]} -eq 0 ]]; then
-    echo -e "${RED}Error: No scripts found in $scripts_dir${NC}" >&2
-    exit 1
+    echo -e "${YELLOW}No post-install scripts found in $scripts_dir${NC}"
+    return 0
   fi
-  
-  echo -e "${BLUE}Found ${#scripts[@]} setup script(s)${NC}"
+
+  echo -e "${BLUE}Found ${#scripts[@]} post-install script(s)${NC}"
   echo ""
-  
-  # Execute each script in order
+
   for script in "${scripts[@]}"; do
-    local script_name=$(basename "$script")
+    local script_name
+    script_name=$(basename "$script")
     echo -e "${BLUE}▶ Running: $script_name${NC}"
     echo ""
-    
+
     if bash "$script"; then
       echo ""
       echo -e "${GREEN}✓ $script_name completed${NC}"
@@ -89,41 +88,30 @@ run_scripts() {
 }
 
 main() {
-  # Check arguments
   if [[ $# -ne 1 ]]; then
     print_usage
   fi
-  
+
   local system="$1"
-  
-  # Validate system argument
+
   if [[ "$system" != "arch" && "$system" != "darwin" ]]; then
     echo -e "${RED}Error: Invalid system '$system'${NC}" >&2
     echo ""
     print_usage
   fi
-  
+
   print_header
-  
+
   echo -e "${BLUE}System: $system${NC}"
   echo ""
 
-  # Ask for sudo once and keep the timestamp fresh while scripts run.
   keep_sudo_alive
-  
-  # Run the setup scripts
   run_scripts "$system"
-  
+
   echo ""
   echo -e "${GREEN}================================================${NC}"
-  echo -e "${GREEN}  Bootstrap Complete!${NC}"
+  echo -e "${GREEN}  Post Install Complete!${NC}"
   echo -e "${GREEN}================================================${NC}"
-  echo ""
-  echo "Next steps:"
-  echo "  1. Restart your shell or run: exec bash"
-  echo "  2. Run post-install scripts as needed: bash post-install.sh $system"
-  echo "  3. Open tmux and press Ctrl+A + I to install plugins"
-  echo "  4. Run 'nvim' to let plugins install automatically"
   echo ""
 }
 
