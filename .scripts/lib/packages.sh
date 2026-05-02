@@ -1,14 +1,25 @@
 #!/usr/bin/env bash
 
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/commands.sh"
+
+read_package_list() {
+  local file="$1"
+
+  while IFS= read -r pkg; do
+    [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
+    printf '%s\n' "$pkg"
+  done < "$file"
+}
+
 package_installed() {
   local pkg="$1"
 
-  if command -v pacman &>/dev/null; then
+  if command_exists pacman; then
     pacman -Qi "$pkg" &>/dev/null
-  elif command -v brew &>/dev/null; then
+  elif command_exists brew; then
     brew list --formula "$pkg" &>/dev/null || brew list --cask "$pkg" &>/dev/null
   else
-    command -v "$pkg" &>/dev/null
+    command_exists "$pkg"
   fi
 }
 

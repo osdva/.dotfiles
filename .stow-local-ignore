@@ -8,4 +8,5 @@
 hosts
 .gitignore
 bootstrap.sh
+post-install.sh
 README.md

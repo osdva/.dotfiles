@@ -11,6 +11,9 @@ readonly BLUE='\033[0;34m'
 readonly YELLOW='\033[1;33m'
 readonly NC='\033[0m'
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/.scripts/lib/tui.sh"
+
 print_usage() {
   echo "Usage: $0 <arch|darwin>"
   echo ""
@@ -30,7 +33,7 @@ print_header() {
 }
 
 keep_sudo_alive() {
-  if ! command -v sudo &>/dev/null; then
+  if ! command_exists sudo; then
     return 0
   fi
 
@@ -69,6 +72,60 @@ run_scripts() {
   echo -e "${BLUE}Found ${#scripts[@]} post-install script(s)${NC}"
   echo ""
 
+  if command_exists gum; then
+    local action
+    action=$(choose_one "Post-install action" "run all" "choose scripts" "skip" || true)
+
+    case "$action" in
+      "run all")
+        echo -e "${BLUE}Running all post-install scripts${NC}"
+        ;;
+      "choose scripts")
+        local script_names=()
+        local script_name
+        for script in "${scripts[@]}"; do
+          script_names+=("$(basename "$script")")
+        done
+
+        local selected_names=()
+        while true; do
+          mapfile -t selected_names < <(choose_many "Select post-install scripts (Space to select, Enter to run)" "${script_names[@]}" || true)
+
+          if [[ ${#selected_names[@]} -gt 0 ]]; then
+            break
+          fi
+
+          echo -e "${YELLOW}No scripts selected. Use Space to select items before pressing Enter.${NC}"
+          if ! confirm "Try selecting scripts again?"; then
+            return 0
+          fi
+        done
+
+        echo -e "${BLUE}Selected post-install script(s): ${selected_names[*]}${NC}"
+
+        local selected_scripts=()
+        local selected_name
+        for selected_name in "${selected_names[@]}"; do
+          for script in "${scripts[@]}"; do
+            if [[ "$(basename "$script")" == "$selected_name" ]]; then
+              selected_scripts+=("$script")
+              break
+            fi
+          done
+        done
+        scripts=("${selected_scripts[@]}")
+        ;;
+      *)
+        echo -e "${YELLOW}Skipping post-install scripts${NC}"
+        return 0
+        ;;
+    esac
+  else
+    echo -e "${YELLOW}gum not found; running all post-install scripts${NC}"
+  fi
+
+  local failed_scripts=()
+
   for script in "${scripts[@]}"; do
     local script_name
     script_name=$(basename "$script")
@@ -81,10 +138,15 @@ run_scripts() {
       echo ""
     else
       echo ""
-      echo -e "${RED}✗ $script_name failed${NC}" >&2
-      exit 1
+      echo -e "${RED}✗ $script_name failed; continuing${NC}" >&2
+      echo ""
+      failed_scripts+=("$script_name")
     fi
   done
+
+  if [[ ${#failed_scripts[@]} -gt 0 ]]; then
+    echo -e "${YELLOW}Post-install completed with failed script(s): ${failed_scripts[*]}${NC}" >&2
+  fi
 }
 
 main() {

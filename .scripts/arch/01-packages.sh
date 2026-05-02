@@ -3,14 +3,11 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
+source "$SCRIPT_DIR/../lib/packages.sh"
 
 log_header "Installing Packages"
 
-packages=()
-while IFS= read -r pkg; do
-  [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
-  packages+=("$pkg")
-done < "$SCRIPT_DIR/../packages/arch/packages"
+mapfile -t packages < <(read_package_list "$SCRIPT_DIR/../packages/arch/packages")
 
 if [[ ${#packages[@]} -eq 0 ]]; then
   log_warn "No packages found in list"

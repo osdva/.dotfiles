@@ -11,12 +11,7 @@ broot --set-install-state installed
 log_info "Removing temporary files..."
 rm -rf "$SCRIPT_DIR/../../tmp"
 
-if confirm "Uninstall gum? (bootstrap UI tool, no longer needed)"; then
-  brew uninstall gum
-  log_success "gum uninstalled"
-else
-  log_info "Keeping gum installed"
-fi
+log_info "Keeping gum installed"
 
 log_success "Cleanup complete"
 log_info "Bootstrap finished! Restart your shell: exec zsh"

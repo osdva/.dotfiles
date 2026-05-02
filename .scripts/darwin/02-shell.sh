@@ -6,7 +6,7 @@ source "$SCRIPT_DIR/../lib/tui.sh"
 
 log_header "Shell Setup"
 
-if ! command -v bash &>/dev/null; then
+if ! command_exists bash; then
   log_info "Installing bash..."
   brew install bash
 fi
@@ -16,7 +16,7 @@ if confirm "Set bash as default shell for $USER?"; then
   log_success "bash set as default shell (requires re-login)"
 fi
 
-if ! command -v fish &>/dev/null; then
+if ! command_exists fish; then
   log_info "Installing fish shell..."
   brew install fish
   log_info "Fish shell will be used as interactive shell"

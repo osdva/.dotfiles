@@ -9,7 +9,11 @@ set -e
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
 readonly BLUE='\033[0;34m'
+readonly YELLOW='\033[1;33m'
 readonly NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/.scripts/lib/commands.sh"
 
 print_usage() {
   echo "Usage: $0 <arch|darwin>"
@@ -30,7 +34,7 @@ print_header() {
 }
 
 keep_sudo_alive() {
-  if ! command -v sudo &>/dev/null; then
+  if ! command_exists sudo; then
     return 0
   fi
 
@@ -70,9 +74,13 @@ run_scripts() {
   echo -e "${BLUE}Found ${#scripts[@]} setup script(s)${NC}"
   echo ""
   
-  # Execute each script in order
+  # Execute each script in order. Keep going if one step fails so the rest of
+  # the machine can still be bootstrapped.
+  local failed_scripts=()
+
   for script in "${scripts[@]}"; do
-    local script_name=$(basename "$script")
+    local script_name
+    script_name=$(basename "$script")
     echo -e "${BLUE}▶ Running: $script_name${NC}"
     echo ""
     
@@ -82,10 +90,15 @@ run_scripts() {
       echo ""
     else
       echo ""
-      echo -e "${RED}✗ $script_name failed${NC}" >&2
-      exit 1
+      echo -e "${RED}✗ $script_name failed; continuing${NC}" >&2
+      echo ""
+      failed_scripts+=("$script_name")
     fi
   done
+
+  if [[ ${#failed_scripts[@]} -gt 0 ]]; then
+    echo -e "${YELLOW}Bootstrap completed with failed script(s): ${failed_scripts[*]}${NC}" >&2
+  fi
 }
 
 main() {

@@ -3,26 +3,10 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
+source "$SCRIPT_DIR/../lib/mise.sh"
 
 log_header "Setting up Language Runtimes"
 
-if ! command -v mise &>/dev/null; then
-  log_error "mise not found. Install packages first."
-  exit 1
-fi
-
-log_info "Configuring mise..."
-mise settings set experimental true
-mise settings set legacy_version_file true
-
-log_info "Installing language runtimes..."
-
-mise use -g node
-KERL_CONFIGURE_OPTIONS="--enable-wx" mise use -g erlang
-mise use -g elixir
-mise use -g usage
-
-mise reshim
-
-log_success "Language runtimes installed"
-mise list
+ensure_mise
+configure_mise
+install_mise_runtimes node erlang elixir usage

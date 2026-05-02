@@ -16,6 +16,5 @@ if confirm "Symlink dotfiles using stow?"; then
   log_success "Dotfiles symlinked"
 fi
 
-log_info "Git signing is skipped during install. Run .scripts/arch/post-install/1password.sh after login."
 
 log_success "Dotfiles setup complete"

@@ -10,20 +10,6 @@ SSH_AGENT_TOML="$HOME/.config/1Password/ssh/agent.toml"
 SSH_AGENT_SOCK="$HOME/.1password/agent.sock"
 CUSTOM_ALLOWED_BROWSERS="/etc/1password/custom_allowed_browsers"
 
-read_with_default() {
-  local prompt="$1"
-  local default="$2"
-  local value
-
-  if command -v gum &>/dev/null; then
-    value=$(gum input --value "$default" --prompt "$prompt: ")
-  else
-    read -r -p "$prompt [$default]: " value
-  fi
-
-  echo "${value:-$default}"
-}
-
 current_git_config_value() {
   local key="$1"
   git config --file "$GITCONFIG_LOCAL" --get "$key" 2>/dev/null || true
@@ -38,7 +24,7 @@ ensure_1password_agent_config() {
   mkdir -p "$(dirname "$SSH_AGENT_TOML")"
 
   local vault
-  vault=$(read_with_default "1Password vault for SSH keys" "Development")
+  vault=$(read_input "1Password vault for SSH keys" "Development")
 
   cat > "$SSH_AGENT_TOML" <<EOF
 [[ssh-keys]]
@@ -49,12 +35,12 @@ EOF
 }
 
 start_1password() {
-  if ! command -v 1password &>/dev/null; then
+  if ! command_exists 1password; then
     log_warn "1Password desktop app is not installed"
     return 1
   fi
 
-  if command -v systemctl &>/dev/null && [[ -f "$HOME/.config/systemd/user/1password.service" ]]; then
+  if command_exists systemctl && [[ -f "$HOME/.config/systemd/user/1password.service" ]]; then
     log_info "Enabling 1Password user service..."
     systemctl --user daemon-reload || true
     if ! systemctl --user enable --now 1password.service; then
@@ -67,7 +53,7 @@ start_1password() {
 }
 
 ensure_op_unlocked() {
-  if ! command -v op &>/dev/null; then
+  if ! command_exists op; then
     log_warn "1Password CLI (op) is not installed"
     return 1
   fi
@@ -88,16 +74,16 @@ ensure_op_unlocked() {
 }
 
 detect_ssh_agent_public_key() {
-  command -v ssh-add &>/dev/null || return 1
+  command_exists ssh-add || return 1
   [[ -S "$SSH_AGENT_SOCK" ]] || return 1
 
   local keys selected
   keys=$(SSH_AUTH_SOCK="$SSH_AGENT_SOCK" ssh-add -L 2>/dev/null || true)
   [[ -n "$keys" ]] || return 1
 
-  if command -v gum &>/dev/null; then
+  if command_exists gum; then
     mapfile -t key_choices <<< "$keys"
-    selected=$(gum choose --header "Select Git GPG signing key (from 1Password agent)" "${key_choices[@]}" || true)
+    selected=$(choose_one "Select Git GPG signing key (from 1Password agent)" "${key_choices[@]}" || true)
     [[ -n "$selected" ]] || return 1
     echo "$selected"
   else
@@ -106,8 +92,8 @@ detect_ssh_agent_public_key() {
 }
 
 detect_1password_public_key() {
-  command -v op &>/dev/null || return 1
-  command -v jq &>/dev/null || return 1
+  command_exists op || return 1
+  command_exists jq || return 1
   ensure_op_unlocked || return 1
 
   local items_json
@@ -115,14 +101,14 @@ detect_1password_public_key() {
   [[ -n "$items_json" && "$items_json" != "[]" ]] || return 1
 
   local selected_id
-  if command -v gum &>/dev/null; then
+  if command_exists gum; then
     local selected
     local choices=($'Enter public key manually\tmanual')
     while IFS= read -r choice; do
       choices+=("$choice")
     done < <(jq -r '.[] | "\(.title)\t\(.id)"' <<< "$items_json")
 
-    selected=$(gum choose --header "Select Git GPG signing key (1Password SSH key)" "${choices[@]}" || true)
+    selected=$(choose_one "Select Git GPG signing key (1Password SSH key)" "${choices[@]}" || true)
     selected_id="${selected##*$'\t'}"
     [[ "$selected_id" != "manual" && -n "$selected_id" ]] || return 1
   else
@@ -154,8 +140,8 @@ configure_git_local() {
   [[ -n "$default_email" ]] || default_email="you@example.com"
 
   log_info "Configuring git identity..."
-  name=$(read_with_default "Your full name" "$default_name")
-  email=$(read_with_default "Your email" "$default_email")
+  name=$(read_input "Your full name" "$default_name")
+  email=$(read_input "Your email" "$default_email")
 
   log_info "Looking for Git GPG signing key in 1Password..."
   # This setup uses Git's SSH signing backend: [gpg] format = ssh,
@@ -163,7 +149,7 @@ configure_git_local() {
   signing_key=$(detect_ssh_agent_public_key || detect_1password_public_key || true)
   [[ -n "$signing_key" ]] || signing_key="$default_key"
   [[ -n "$signing_key" ]] || signing_key="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA..."
-  signing_key=$(read_with_default "Git GPG signing key (SSH public key from 1Password)" "$signing_key")
+  signing_key=$(read_input "Git GPG signing key (SSH public key from 1Password)" "$signing_key")
 
   git config --file "$GITCONFIG_LOCAL" user.name "$name"
   git config --file "$GITCONFIG_LOCAL" user.email "$email"
@@ -192,7 +178,7 @@ default_browser_binaries() {
   local browser
 
   for browser in zen-browser vivaldi-bin vivaldi-stable vivaldi; do
-    if command -v "$browser" &>/dev/null; then
+    if command_exists "$browser"; then
       browsers+=("$browser")
     fi
   done
@@ -217,7 +203,7 @@ configure_custom_browsers() {
     default_browsers=$(default_browser_binaries)
   fi
 
-  browsers=$(read_with_default "Trusted browser binaries (space/comma separated)" "$default_browsers")
+  browsers=$(read_input "Trusted browser binaries (space/comma separated)" "$default_browsers")
   tmp=$(mktemp)
 
   tr ', ' '\n' <<< "$browsers" \
@@ -232,7 +218,7 @@ configure_custom_browsers() {
   log_success "1Password custom browsers configured: $(tr '\n' ' ' < "$CUSTOM_ALLOWED_BROWSERS" | sed 's/ $//')"
 
   if confirm "Restart 1Password now so it reads custom browsers?"; then
-    if command -v systemctl &>/dev/null && systemctl --user list-unit-files 1password.service &>/dev/null; then
+    if command_exists systemctl && systemctl --user list-unit-files 1password.service &>/dev/null; then
       systemctl --user restart 1password.service || true
     else
       pkill -u "$USER" -x 1password 2>/dev/null || true
