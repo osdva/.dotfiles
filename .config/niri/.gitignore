@@ -1,4 +1,6 @@
 *
 
 !dms/**
+!profiles/
+!profiles/**
 !config.kdl

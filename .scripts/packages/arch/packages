@@ -44,27 +44,35 @@ wireplumber
 rclone
 gnome-keyring
 seahorse
+xwayland-satellite
 
 # Fonts
 ttf-dejavu
 ttf-liberation
 noto-fonts
 noto-fonts-emoji
+noto-fonts-cjk
+ttf-cascadia-code
 otf-commit-mono-nerd
 otf-geist-mono-nerd
 ttf-ibmplex-mono-nerd
 
+# Fonts (AUR)
+ttf-ms-fonts
+ttf-windowsonly-fonts
+ttf-carlito
+
 # Other packages
 opencode-bin
-vivaldi
 1password
 1password-cli
 zen-browser-bin
 qbz
 vesktop-bin
 impala
-polkit-gnome
 docker-compose
 resources
 flatpak
 obsidian
+loupe
+

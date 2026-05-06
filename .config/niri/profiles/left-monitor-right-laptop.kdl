@@ -1,0 +1,15 @@
+// Niri output profile: external monitor on the left, laptop panel on the right.
+// HDMI-A-1 is 3840x2160 scaled to 1.5 => 2560x1440 logical pixels.
+// eDP-1 starts at x=2560 so it sits directly to the right of HDMI-A-1.
+
+output "HDMI-A-1" {
+    mode "3840x2160@60.000"
+    scale 1.5
+    position x=0 y=0
+}
+
+output "eDP-1" {
+    mode "1920x1200@60.001"
+    scale 1
+    position x=2560 y=0
+}

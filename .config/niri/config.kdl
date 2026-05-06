@@ -20,11 +20,6 @@ input {
     focus-follows-mouse max-scroll-amount="90%"
 }
 prefer-no-csd
-output "eDP-1" {
-    mode "1920x1200@60.001"
-    scale 1
-    position x=0 y=0
-}
 layout {
     gaps 5
     background-color "transparent"
@@ -451,17 +446,19 @@ binds {
 environment {
     XDG_CURRENT_DESKTOP "niri"
     DISPLAY ":0"
-    GDK_BACKEND "wayland"
     _JAVA_AWT_WM_NONREPARENTING "1"
-    QT_QPA_PLATFORM "wayland"
     ELECTRON_OZONE_PLATFORM_HINT "auto"
+    QT_QPA_PLATFORM "wayland;xcb"
     QT_QPA_PLATFORMTHEME "gtk3"
     QT_QPA_PLATFORMTHEME_QT6 "gtk3"
+    XMODIFIERS "@im=ibus"
     GTK_IM_MODULE "ibus"
     QT_IM_MODULE "ibus"
-    XMODIFIERS "@im=ibus"
 }
 spawn-at-startup "qs" "-c" "noctalia-shell"
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-sh-at-startup "vicinae server"
+
+// Active monitor profile: external monitor on the left, laptop panel on the right.
+include "profiles/left-monitor-right-laptop.kdl"
 
