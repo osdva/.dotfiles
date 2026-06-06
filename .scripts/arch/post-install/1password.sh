@@ -177,7 +177,7 @@ default_browser_binaries() {
   local browsers=()
   local browser
 
-  for browser in zen-browser vivaldi-bin vivaldi-stable vivaldi; do
+  for browser in zen-browser helium-browser; do
     if command_exists "$browser"; then
       browsers+=("$browser")
     fi

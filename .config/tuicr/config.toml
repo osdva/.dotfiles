@@ -1,0 +1,7 @@
+theme = "tokyo-night-storm"
+diff_view = "unified"  
+ignore_whitespace = false    
+appearance = "system" 
+mouse = true
+leader = " "                  
+review_watch_interval_ms = 1000
