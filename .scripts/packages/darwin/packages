@@ -1,5 +1,6 @@
 # Shell tools
 neovim
+tree-sitter
 bat
 eza
 zoxide
@@ -13,6 +14,7 @@ starship
 fastfetch
 tmux
 glow
+less
 
 # Development tools
 gitu
@@ -22,3 +24,5 @@ docker
 just
 mise
 direnv
+difftastic
+delta

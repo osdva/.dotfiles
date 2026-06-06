@@ -1,5 +1,6 @@
 # Shell tools
 neovim
+tree-sitter-cli
 bat
 eza
 zoxide
@@ -15,6 +16,8 @@ tmux
 glow
 direnv
 
+less
+
 # Terminal emulators
 kitty
 
@@ -29,6 +32,8 @@ podman-docker
 just
 mise
 1password-cli
+difftastic
+delta
 
 # System utilities
 usbutils
@@ -66,12 +71,12 @@ ttf-carlito
 opencode-bin
 1password
 1password-cli
-zen-browser-bin
+helium-browser-bin
 qbz
 vesktop-bin
 impala
 docker-compose
-resources
+mission-center
 flatpak
 obsidian
 loupe

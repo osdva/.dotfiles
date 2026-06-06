@@ -122,6 +122,10 @@ deps.later(function()
       mason = 'typescript-language-server',
       config = {},
     },
+    astro_ls = {
+      mason = 'astro-language-server',
+      config = {},
+    },
     fish_lsp = {
       mason = 'fish-lsp',
       config = {},

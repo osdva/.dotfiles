@@ -4,6 +4,7 @@ legacy_version_file = true
 
 [tools]
 deno = "latest"
+bun = "latest"
 elixir = "latest"
 erlang = "latest"
 go = "latest"

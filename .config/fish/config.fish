@@ -10,7 +10,10 @@ set fzf_fd_opts --hidden --max-depth 5
 set -x FZF_DEFAULT_OPTS_FILE ~/.config/fzf/fzf.conf
 
 # Host-specific exports
-set -l host_name (cat /etc/hostname 2>/dev/null | string trim || echo "unknown")
+set -l host_name (cat /etc/hostname 2>/dev/null)
+if test -z "$host_name"
+    set host_name "unknown"
+end
 set host_rc $HOME/.dotfiles/hosts/$host_name/fish.local.fish
 set host_secrets $HOME/.dotfiles/hosts/$host_name/secrets.fish
 if test -f "$host_rc"

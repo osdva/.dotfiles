@@ -36,25 +36,3 @@ deps.later(function()
     end
   end, { desc = 'Accept Copilot NES suggestion', expr = true })
 end)
-
-deps.later(function()
-  deps.add({
-    source = 'greggh/claude-code.nvim',
-    depends = { 'nvim-lua/plenary.nvim' },
-  })
-
-  require('claude-code').setup({
-    keymaps = {
-      toggle = {
-        normal = '<leader>acc',
-        terminal = false,
-      },
-    },
-  })
-end)
-
-deps.later(function()
-  deps.add({ source = 'nickjvandyke/opencode.nvim' })
-
-  keys.map({ 'n', 't' }, '<leader>aoc', function() require('opencode').toggle() end, { desc = 'Toggle opencode' })
-end)

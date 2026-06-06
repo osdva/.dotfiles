@@ -1,0 +1,8 @@
+require('plugins.editor')
+require('plugins.treesitter')
+require('plugins.ai')
+require('plugins.sidekick')
+require('plugins.lsp')
+require('plugins.linter')
+require('plugins.git')
+require('plugins.testing')
