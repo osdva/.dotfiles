@@ -47,13 +47,6 @@ deps.add({
       end,
     },
   },
-  {
-    src = deps.source.gh('fang2hou/blink-copilot'),
-    data = {
-      enabled = true,
-      dep_of = 'blink.cmp',
-    },
-  },
 })
 
 -- cmp
@@ -70,7 +63,6 @@ deps.add({
           nerd_font_variant = 'mono',
           kind_icons = {
             AI = '󰚩',
-            Copilot = '',
             Text = '󰉿',
             Method = '󰊕',
             Function = '󰊕',
@@ -115,19 +107,12 @@ deps.add({
           preset = 'luasnip',
         },
         sources = {
-          default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'minuet' },
+          default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'minuet' },
           providers = {
             lazydev = {
               name = 'LazyDev',
               module = 'lazydev.integrations.blink',
               score_offset = 100,
-            },
-            copilot = {
-              enabled = true,
-              name = 'copilot',
-              module = 'blink-copilot',
-              score_offset = 100,
-              async = true,
             },
             minuet = {
               enabled = true,

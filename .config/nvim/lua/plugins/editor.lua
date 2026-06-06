@@ -162,6 +162,9 @@ deps.add({
         local max_notifications = 3
 
         require('mini.notify').setup({
+          lsp_progress = {
+            enable = false,
+          },
           content = {
             sort = function(notif_arr)
               local sorted = MiniNotify.default_sort(notif_arr)
@@ -177,6 +180,44 @@ deps.add({
           window = { config = { border = 'rounded' }, max_width_share = 0.25 },
         })
         vim.notify = MiniNotify.make_notify()
+      end,
+    },
+  },
+  -- input
+  {
+    src = deps.source.gh('nvim-mini/mini.input'),
+    data = {
+      after = function(_) require('mini.input').setup({}) end,
+    },
+  },
+  -- starter
+  {
+    src = deps.source.gh('nvim-mini/mini.starter'),
+    data = {
+      after = function(_)
+        local starter = require('mini.starter')
+
+        starter.setup({
+          evaluate_single = true,
+          items = {
+            {
+              { name = 'Find files', action = 'Pick files', section = 'Pick' },
+              { name = 'Find text', action = 'Pick grep_live', section = 'Pick' },
+              { name = 'Find help', action = 'Pick help', section = 'Pick' },
+              { name = 'Command history', action = 'Pick history scope=":"', section = 'Pick' },
+            },
+            starter.sections.recent_files(5, true),
+            starter.sections.recent_files(5, false),
+            starter.sections.builtin_actions(),
+          },
+          header = 'Neovim',
+          footer = 'Type to filter, <CR> to run, <C-c> to close',
+          content_hooks = {
+            starter.gen_hook.adding_bullet(),
+            starter.gen_hook.indexing('all', { 'Builtin actions' }),
+            starter.gen_hook.aligning('center', 'center'),
+          },
+        })
       end,
     },
   },
