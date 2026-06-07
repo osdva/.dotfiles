@@ -61,7 +61,7 @@ function M.setup()
         keys.map(
           { 'n', 'x' },
           '<leader>ca',
-          function() require('tiny-code-action').code_action() end,
+          function() require('tiny-code-action').code_action({}) end,
           { buffer = bufnr, desc = 'Code actions' }
         )
       end
