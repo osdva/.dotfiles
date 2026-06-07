@@ -1,24 +1,4 @@
 local deps = require('deps')
-local events = require('events')
-local keys = require('keymaps')
-
--- installer
-deps.add({
-  src = deps.source.gh('mason-org/mason.nvim'),
-  data = {
-    after = function(_)
-      require('mason').setup({
-        ui = {
-          icons = {
-            package_installed = '✓',
-            package_pending = '➜',
-            package_uninstalled = '✗',
-          },
-        },
-      })
-    end,
-  },
-})
 
 -- completion dependencies
 deps.add({
@@ -32,6 +12,18 @@ deps.add({
     src = deps.source.gh('L3MON4D3/LuaSnip'),
     data = {
       dep_of = 'blink.cmp',
+      after = function(_)
+        if vim.g.luasnip_snippets_loaded then return end
+
+        vim.g.luasnip_snippets_loaded = true
+
+        local snippet_paths = {}
+        for _, plugin in ipairs(vim.pack.get()) do
+          if plugin.spec.name == 'friendly-snippets' then table.insert(snippet_paths, plugin.path) end
+        end
+
+        require('luasnip.loaders.from_vscode').lazy_load({ paths = snippet_paths })
+      end,
     },
   },
   {
@@ -115,13 +107,13 @@ deps.add({
               score_offset = 100,
             },
             minuet = {
-              enabled = true,
+              enabled = vim.env.OPENCODE_GO_API_KEY ~= nil and vim.env.OPENCODE_GO_API_KEY ~= '',
               name = 'minuet',
               module = 'minuet.blink',
               score_offset = 100,
               async = true,
               timeout_ms = 5000,
-              min_keyword_length = 0,
+              min_keyword_length = 2,
               transform_items = function(_, items)
                 for _, item in ipairs(items) do
                   item.kind_name = 'AI'
@@ -134,96 +126,4 @@ deps.add({
       })
     end,
   },
-})
-
--- lsp
-deps.add({
-  {
-    src = deps.source.gh('neovim/nvim-lspconfig'),
-  },
-  {
-    src = deps.source.gh('WhoIsSethDaniel/mason-tool-installer.nvim'),
-    data = {
-      dep_of = 'nvim-lspconfig',
-    },
-  },
-})
-
-vim.lsp.config('*', {
-  capabilities = require('blink.cmp').get_lsp_capabilities(),
-})
-
-local lsp_servers = {
-  lua_ls = 'lua-language-server',
-  cssls = 'css-lsp',
-  tailwindcss = 'tailwindcss-language-server',
-  expert = 'expert',
-  ts_ls = 'typescript-language-server',
-  astro = 'astro-language-server',
-  fish_lsp = 'fish-lsp',
-  jqls = 'jq-lsp',
-  harper_ls = 'harper-ls',
-}
-
-local non_lsp_tools = {
-  'stylua',
-  'eslint_d',
-  'prettierd',
-  'prettier',
-  'biome',
-  'jq',
-  'kdlfmt',
-  'shellcheck',
-  'shfmt',
-  'superhtml',
-}
-
-local enabled_servers = vim.tbl_keys(lsp_servers)
-local ensure_installed = vim.list_slice(non_lsp_tools)
-
-for _, mason_package in pairs(lsp_servers) do
-  table.insert(ensure_installed, mason_package)
-end
-
-require('mason-tool-installer').setup({
-  ensure_installed = ensure_installed,
-})
-
-vim.lsp.enable(enabled_servers)
-
-vim.diagnostic.config({
-  underline = false,
-  update_in_insert = false,
-  severity_sort = true,
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = ' ',
-      [vim.diagnostic.severity.WARN] = ' ',
-      [vim.diagnostic.severity.HINT] = ' ',
-      [vim.diagnostic.severity.INFO] = ' ',
-    },
-  },
-})
-
-events.autocmd('LspAttach', {
-  callback = function(args)
-    local bufnr = args.buf
-
-    keys.map('n', '<leader>ld', '<CMD>Pick lsp scope="definition"<CR>', { buffer = bufnr, desc = 'Find definitions' })
-    keys.map('n', '<leader>lr', '<CMD>Pick lsp scope="references"<CR>', { buffer = bufnr, desc = 'Find references' })
-    keys.map('n', '<leader>lh', function() vim.lsp.buf.hover() end, { buffer = bufnr, desc = 'Show hover information' })
-    keys.map(
-      'n',
-      '<leader>ll',
-      function() vim.diagnostic.open_float(0, { scope = 'line' }) end,
-      { buffer = bufnr, desc = 'Show line diagnostics' }
-    )
-    keys.map('n', '<leader>lcr', function() vim.lsp.buf.rename() end, { buffer = bufnr, desc = 'Rename symbol' })
-    keys.map(
-      { 'n', 'x' },
-      '<leader>ca',
-      function() require('tiny-code-action').code_action() end,
-      { buffer = bufnr, desc = 'Code actions' }
-    )
-  end,
 })

@@ -162,9 +162,6 @@ deps.add({
         local max_notifications = 3
 
         require('mini.notify').setup({
-          lsp_progress = {
-            enable = false,
-          },
           content = {
             sort = function(notif_arr)
               local sorted = MiniNotify.default_sort(notif_arr)
@@ -269,6 +266,7 @@ deps.add({
           { mode = 'n', keys = '<leader>d', desc = '+deps' },
           { mode = 'n', keys = '<leader>f', desc = '+find' },
           { mode = 'n', keys = '<leader>g', desc = '+git' },
+          { mode = 'n', keys = '<leader>h', desc = '+haunt' },
           { mode = 'n', keys = '<leader>l', desc = '+lsp' },
           { mode = 'n', keys = '<leader>c', desc = '+code' },
           { mode = 'n', keys = '<leader>t', desc = '+test' },
@@ -295,6 +293,9 @@ deps.add({
   data = {
     after = function(_)
       require('oil').setup({
+        keymaps = {
+          u = 'actions.refresh',
+        },
         view_options = {
           show_hidden = true,
         },
@@ -357,6 +358,54 @@ deps.add({
   },
 })
 
+-- haunt
+deps.add({
+  src = deps.source.gh('TheNoeTrevino/haunt.nvim'),
+  data = {
+    dep_of = 'sidekick.nvim',
+    after = function(_)
+      require('haunt').setup()
+
+      local haunt = require('haunt.api')
+      local haunt_picker = require('haunt.picker')
+
+      keys.map('n', '<leader>ha', function() haunt.annotate() end, { desc = 'Haunt annotate' })
+
+      keys.map('n', '<leader>ht', function() haunt.toggle_annotation() end, { desc = 'Haunt toggle annotation' })
+
+      keys.map('n', '<leader>hT', function() haunt.toggle_all_lines() end, { desc = 'Haunt toggle all annotations' })
+
+      keys.map('n', '<leader>hd', function() haunt.delete() end, { desc = 'Haunt delete bookmark' })
+
+      keys.map('n', '<leader>hC', function() haunt.clear_all() end, { desc = 'Haunt delete all bookmarks' })
+
+      keys.map('n', '<leader>hp', function() haunt.prev() end, { desc = 'Haunt previous bookmark' })
+
+      keys.map('n', '<leader>hn', function() haunt.next() end, { desc = 'Haunt next bookmark' })
+
+      keys.map('n', '<leader>hl', function() haunt_picker.show() end, { desc = 'Haunt list bookmarks' })
+
+      keys.map(
+        'n',
+        '<leader>hq',
+        function() haunt.to_quickfix({ current_buffer = true }) end,
+        { desc = 'Haunt quickfix buffer' }
+      )
+
+      keys.map('n', '<leader>hQ', function() haunt.to_quickfix() end, { desc = 'Haunt quickfix all' })
+
+      keys.map(
+        'n',
+        '<leader>hy',
+        function() haunt.yank_locations({ current_buffer = true }) end,
+        { desc = 'Haunt yank buffer' }
+      )
+
+      keys.map('n', '<leader>hY', function() haunt.yank_locations() end, { desc = 'Haunt yank all' })
+    end,
+  },
+})
+
 -- render markdown
 deps.add({
   src = deps.source.gh('MeanderingProgrammer/render-markdown.nvim'),
@@ -386,7 +435,12 @@ deps.add({
   src = deps.source.gh('rachartier/tiny-inline-diagnostic.nvim'),
   data = {
     after = function(_)
-      require('tiny-inline-diagnostic').setup()
+      require('tiny-inline-diagnostic').setup({
+        preset = 'minimal',
+        options = {
+          show_diags_only_under_cursor = true,
+        },
+      })
       vim.diagnostic.config({ virtual_text = false })
     end,
   },
