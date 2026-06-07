@@ -436,12 +436,20 @@ deps.add({
   data = {
     after = function(_)
       require('tiny-inline-diagnostic').setup({
-        preset = 'minimal',
+        preset = 'classic',
         options = {
-          show_diags_only_under_cursor = true,
+          add_messages = {
+            display_count = true,
+          },
+          multilines = {
+            enabled = true,
+            always_show = true,
+          },
         },
       })
       vim.diagnostic.config({ virtual_text = false })
+
+      keys.map('n', '<leader>lt', '<CMD>TinyInlineDiag toggle<CR>', { desc = 'Toggle diagnostics' })
     end,
   },
 })
