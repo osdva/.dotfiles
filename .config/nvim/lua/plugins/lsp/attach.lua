@@ -7,7 +7,7 @@ local function supports(client, method, bufnr) return client and client:supports
 
 function M.setup()
   events.autocmd('LspAttach', {
-    group = events.augroup('dotfiles_lsp_attach', { clear = true }),
+    group = events.augroup('session_lsp', { clear = true }),
     callback = function(args)
       local bufnr = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
