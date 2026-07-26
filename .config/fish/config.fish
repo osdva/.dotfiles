@@ -12,7 +12,7 @@ set -x FZF_DEFAULT_OPTS_FILE ~/.config/fzf/fzf.conf
 # Host-specific exports
 set -l host_name (cat /etc/hostname 2>/dev/null)
 if test -z "$host_name"
-    set host_name "unknown"
+    set host_name unknown
 end
 set host_rc $HOME/.dotfiles/hosts/$host_name/fish.local.fish
 set host_secrets $HOME/.dotfiles/hosts/$host_name/secrets.fish
@@ -22,6 +22,22 @@ end
 if test -f "$host_secrets"
     source "$host_secrets"
 end
+
+# aliases
+alias hd herdr
+alias bt bluetui
+alias cat bat
+alias cd z
+alias g gitu
+alias ls 'eza --color --icons --git -a'
+alias lsql lazysql
+alias lzd lazydocker
+alias lzg lazygit
+alias sr 'exec fish'
+alias vim nvim
+alias wf impala
+alias oc 'OPENCODE_EXPERIMENTAL=true opencode'
+alias set-alias 'alias -s'
 
 mise activate fish | source
 fzf --fish | source

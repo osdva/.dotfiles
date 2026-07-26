@@ -1,6 +1,7 @@
 [settings]
 experimental = true
 legacy_version_file = true
+npm.package_manager = "aube"
 
 [tools]
 deno = "latest"
@@ -12,3 +13,7 @@ node = "latest"
 "npm:pnpm" = "latest"
 usage = "latest"
 uv = "latest"
+aube = "latest"
+"npm:@earendil-works/pi-coding-agent" = "latest"
+herdr = "latest"
+

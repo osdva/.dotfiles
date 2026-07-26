@@ -1,0 +1,95 @@
+[
+  {
+    "plugin_id": "persiyanov.reviewr",
+    "name": "reviewr",
+    "version": "0.24.1",
+    "min_herdr_version": "0.7.0",
+    "description": "Review agent-written diffs beside the chat and add line comments to the agent input.",
+    "manifest_path": "/home/osdva/.dotfiles/.config/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8/herdr-plugin.toml",
+    "plugin_root": "/home/osdva/.dotfiles/.config/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8",
+    "enabled": true,
+    "platforms": [
+      "macos",
+      "linux"
+    ],
+    "build": [
+      {
+        "command": [
+          "bash",
+          "herdr/install.sh"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "close",
+        "title": "reviewr: close sidebar",
+        "contexts": [
+          "pane",
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "herdr/sidebar.sh",
+          "close"
+        ]
+      },
+      {
+        "id": "open",
+        "title": "reviewr: open sidebar",
+        "contexts": [
+          "pane",
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "herdr/sidebar.sh",
+          "open"
+        ]
+      },
+      {
+        "id": "toggle",
+        "title": "reviewr: toggle sidebar",
+        "contexts": [
+          "pane",
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "herdr/sidebar.sh",
+          "toggle"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "on": "worktree.created",
+        "command": [
+          "bash",
+          "herdr/sidebar.sh",
+          "auto-open"
+        ]
+      }
+    ],
+    "panes": [
+      {
+        "id": "sidebar",
+        "title": "reviewr",
+        "placement": "split",
+        "command": [
+          "sh",
+          "-c",
+          "exec \"$HERDR_PLUGIN_ROOT/bin/herdr-reviewr\""
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "persiyanov",
+      "repo": "herdr-reviewr",
+      "resolved_commit": "27309ecb68435700d58dffd32d518ed998998462",
+      "managed_path": "/home/osdva/.config/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8",
+      "installed_unix_ms": 1785024450180
+    }
+  }
+]
