@@ -25,7 +25,7 @@ install_neovim_plugins() {
   if command_exists nvim; then
     log_info "Installing neovim plugins..."
 
-    nvim --headless -c "lua MiniDeps.update()" -c "qa" 2>/dev/null || true
+    nvim --headless -c "qa"
 
     log_success "neovim plugins installed"
   else

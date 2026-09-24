@@ -54,7 +54,6 @@ deps.add({
         appearance = {
           nerd_font_variant = 'mono',
           kind_icons = {
-            AI = '󰚩',
             Text = '󰉿',
             Method = '󰊕',
             Function = '󰊕',
@@ -99,27 +98,12 @@ deps.add({
           preset = 'luasnip',
         },
         sources = {
-          default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'minuet' },
+          default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
           providers = {
             lazydev = {
               name = 'LazyDev',
               module = 'lazydev.integrations.blink',
               score_offset = 100,
-            },
-            minuet = {
-              enabled = vim.env.OPENCODE_GO_API_KEY ~= nil and vim.env.OPENCODE_GO_API_KEY ~= '',
-              name = 'minuet',
-              module = 'minuet.blink',
-              score_offset = 100,
-              async = true,
-              timeout_ms = 5000,
-              min_keyword_length = 2,
-              transform_items = function(_, items)
-                for _, item in ipairs(items) do
-                  item.kind_name = 'AI'
-                end
-                return items
-              end,
             },
           },
         },

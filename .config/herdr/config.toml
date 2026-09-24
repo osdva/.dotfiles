@@ -1,3 +1,4 @@
+onboarding = false
 [theme]
 name = "kanagawa"
 
@@ -93,6 +94,7 @@ height = "90%"
 # delivery = "off"
 # delay_seconds = 1
 
+delivery = "terminal"
 [ui.toast.herdr]
 position = "top-right"
 

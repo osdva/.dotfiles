@@ -9,4 +9,4 @@ log_header "Setting up Language Runtimes"
 
 ensure_mise
 configure_mise
-install_mise_runtimes node erlang elixir usage
+install_mise_runtimes node usage

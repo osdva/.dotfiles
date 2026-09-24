@@ -20,10 +20,11 @@ if [ -f "$HOST_SECRETS" ]; then
   source "$HOST_SECRETS"
 fi
 
-if [ -S ~/.1password/agent.sock ]; then
-  export SSH_AUTH_SOCK=~/.1password/agent.sock
+if [ -S "$HOME/.ssh/proton-pass-ssh-agent.sock" ]; then
+  export SSH_AUTH_SOCK="$HOME/.ssh/proton-pass-ssh-agent.sock"
 fi
 
-if [[ $- == *i* ]] && [[ -z "$FISH_VERSION" ]]; then
+# Stay in bash for `bash -c` / `bash -ic`, including on a PTY, so the command runs.
+if [[ $- == *i* ]] && [[ $- != *c* ]] && [[ -t 1 ]] && [[ -z "$FISH_VERSION" ]]; then
   exec fish
 fi

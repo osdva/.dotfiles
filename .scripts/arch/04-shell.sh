@@ -6,15 +6,8 @@ source "$SCRIPT_DIR/../lib/tui.sh"
 
 log_header "Shell Setup"
 
-log_info "Installing login shell..."
-paru -S --needed --noconfirm fish bash
+log_info "Installing fish shell..."
+paru -S --needed --noconfirm fish
 
-if confirm "Set bash as default shell for $USER?"; then
-  command_path bash | sudo tee -a /etc/shells
-  chsh -s "$(command_path bash)"
-  log_success "bash set as default shell (requires re-login)"
-
-  log_info "Fish shell will be used as an interactive shell."
-fi
-
+log_info "Login shell stays zsh. Interactive sessions start fish from .zshrc."
 log_success "Shell setup complete"

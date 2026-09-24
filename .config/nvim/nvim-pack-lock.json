@@ -17,10 +17,6 @@
       "rev": "2253030fc17c8356a2ff1026f25cb9b570bdd91f",
       "src": "https://github.com/esmuellert/codediff.nvim"
     },
-    "colar.nvim": {
-      "rev": "6b429e109f49e3d65ecb5fe71254fa3dde60454c",
-      "src": "/home/osdva/dev/colar.nvim"
-    },
     "conform.nvim": {
       "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
       "src": "https://github.com/stevearc/conform.nvim"
@@ -192,10 +188,6 @@
     "tree-sitter-manager.nvim": {
       "rev": "09e3a321eea8100cacd2e759c3a6c9d350295fab",
       "src": "https://github.com/romus204/tree-sitter-manager.nvim"
-    },
-    "yaga.nvim": {
-      "rev": "8ded28ed07fbdad219542724589d61d53df44f60",
-      "src": "/home/osdva/dev/yaga.nvim"
     }
   }
 }

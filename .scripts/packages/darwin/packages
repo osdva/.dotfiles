@@ -1,6 +1,6 @@
 # Shell tools
 neovim
-tree-sitter
+tree-sitter-cli
 bat
 eza
 zoxide
@@ -26,3 +26,4 @@ mise
 direnv
 difftastic
 delta
+proton-pass-cli

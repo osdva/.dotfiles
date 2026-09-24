@@ -42,6 +42,5 @@ alias set-alias 'alias -s'
 mise activate fish | source
 fzf --fish | source
 zoxide init fish | source
-op completion fish | source
 eval (tmuxifier init - fish)
 starship init fish | source

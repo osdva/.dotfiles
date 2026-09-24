@@ -6,8 +6,6 @@ npm.package_manager = "aube"
 [tools]
 deno = "latest"
 bun = "latest"
-elixir = "latest"
-erlang = "latest"
 go = "latest"
 node = "latest"
 "npm:pnpm" = "latest"

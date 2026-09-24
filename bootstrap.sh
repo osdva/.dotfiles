@@ -133,7 +133,7 @@ main() {
   echo -e "${GREEN}================================================${NC}"
   echo ""
   echo "Next steps:"
-  echo "  1. Restart your shell or run: exec bash"
+  echo "  1. Restart your shell or run: exec zsh"
   echo "  2. Run post-install scripts as needed: bash post-install.sh $system"
   echo "  3. Open tmux and press Ctrl+A + I to install plugins"
   echo "  4. Run 'nvim' to let plugins install automatically"

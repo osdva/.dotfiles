@@ -17,7 +17,7 @@ M.add = function(t)
       spec.name = p.spec.name
       require('lze').load(spec)
     end,
-    confirm = true,
+    confirm = not vim.tbl_contains(vim.v.argv, '--headless'),
   })
 end
 
