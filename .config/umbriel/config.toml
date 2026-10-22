@@ -1,0 +1,193 @@
+# Umbriel starting configuration
+#
+# Copy this file to ~/.config/umbriel/config.toml. Most changes apply when the
+# file is saved. Check edits with `umbriel validate`.
+#
+# Complete reference: https://docs.noctalia.dev/umbriel/
+#
+# Commented settings below are examples, not built-in defaults.
+
+# ==============================================================================
+# Includes
+
+# Optional split configuration
+# https://docs.noctalia.dev/umbriel/configuration/#include
+[include]
+files = []
+
+[include.optional]
+files = []
+
+# ==============================================================================
+# General
+
+# Optional session examples. XWayland support is enabled by default.
+# https://docs.noctalia.dev/umbriel/configuration/#general
+[general]
+autostart = ["noctalia"]
+# xwayland = false
+
+# ==============================================================================
+# Outputs
+
+# Outputs are machine-specific. Run `umbriel outputs` to find names and modes.
+# https://docs.noctalia.dev/umbriel/outputs/
+#
+# [output.DP-1]
+# mode = "2560x1440@144"
+# position = [0, 0]
+# scale = 1.25
+# vrr = "fullscreen"
+# hdr = "auto"
+
+# ==============================================================================
+# Appearance
+# Blur uses a smaller radius than the built-in default.
+# https://docs.noctalia.dev/umbriel/appearance/
+[appearance.blur]
+radius = 3
+
+# Choose the background color shown if the lock screen takes too long to appear.
+# [colors]
+# backdrop = "#000000FF"
+
+# ==============================================================================
+# Input
+# Enable NumLock when a physical keyboard connects.
+# https://docs.noctalia.dev/umbriel/input/
+[input.keyboard]
+layout = "br,us"
+variant = "thinkpad"
+numlock_toggle = true
+
+[input.touchpad]
+tap = true
+natural_scroll = true
+
+# ==============================================================================
+# Keybinds
+# Defining this table replaces the built-in bind set, so every active bind that
+# should remain available is listed here.
+# Syntax: https://docs.noctalia.dev/umbriel/keybinds/
+# Actions: https://docs.noctalia.dev/umbriel/actions/
+[keybinds]
+
+# Applications and session
+"Mod+T" = "spawn:kitty"
+"Mod+E" = "spawn:nautilus"
+"Mod+Space" = "spawn:noctalia msg panel-toggle launcher"
+"Mod+Q" = "window-close"
+"Mod+Escape" = "session-quit"
+"Mod+Shift+Escape" = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }
+
+# Focus and movement
+"Mod+Left" = "window-focus-left"
+"Mod+Down" = "window-focus-down"
+"Mod+Up" = "window-focus-up"
+"Mod+Right" = "window-focus-right"
+"Mod+H" = "window-focus-left"
+"Mod+J" = "window-focus-down"
+"Mod+K" = "window-focus-up"
+"Mod+L" = "window-focus-right"
+"Mod+F1" = "window-focus-next"
+"Mod+Shift+Left" = "column-move-left"
+"Mod+Shift+Down" = "window-move-down"
+"Mod+Shift+Up" = "window-move-up"
+"Mod+Shift+Right" = "column-move-right"
+
+# Window state and layout
+"Mod+Shift+P" = "window-toggle-floating"
+"Mod+Shift+T" = "window-focus-switch-floating"
+"Mod+P" = "window-toggle-pinned"
+"Mod+M" = "window-toggle-maximize-to-edges"
+"Mod+Shift+F" = "window-toggle-fullscreen"
+"Mod+F" = "window-toggle-maximize"
+"Mod+R" = "window-cycle-primary-extent"
+"Mod+Shift+R" = "window-cycle-primary-extent-back"
+"Mod+Comma" = "window-consume-left"
+"Mod+Period" = "window-consume-right"
+"Mod+WheelUp" = "window-focus-left"
+"Mod+WheelDown" = "window-focus-right"
+"Mod+O" = { action = "overview-toggle", repeat = false }
+
+# Workspaces
+"Mod+Shift+1" = "window-move-to-workspace:1"
+"Mod+Shift+2" = "window-move-to-workspace:2"
+"Mod+Shift+3" = "window-move-to-workspace:3"
+"Mod+Shift+4" = "window-move-to-workspace:4"
+"Mod+Shift+5" = "window-move-to-workspace:5"
+"Mod+Shift+6" = "window-move-to-workspace:6"
+"Mod+Shift+7" = "window-move-to-workspace:7"
+"Mod+Shift+8" = "window-move-to-workspace:8"
+"Mod+Shift+9" = "window-move-to-workspace:9"
+
+# Scratchpad
+"Mod+Shift+S" = "window-move-to-scratchpad"
+"Mod+S" = "scratchpad-toggle"
+"Mod+Ctrl+S" = "window-restore-from-scratchpad"
+"Mod+Tab" = "scratchpad-focus-next"
+
+# ==============================================================================
+# Layout
+# New scrolling-layout windows start at half the output width. Without this
+# setting, each application chooses its starting width.
+# https://docs.noctalia.dev/umbriel/layout/
+[layout]
+extent_presets = [0.333, 0.5, 0.667]
+
+[layout.scrolling]
+default_extent_fraction = 0.5
+
+# ==============================================================================
+# Window rules
+# Rules combine in order, with later values overriding earlier ones.
+# https://docs.noctalia.dev/umbriel/window-rules/
+
+# Blur windows using the non-optimized path so translucent windows include
+# overlapping windows behind them.
+[[window_rule]]
+blur = true
+blur_optimized = false
+
+[[window_rule]]
+match.app_id = "^dev.noctalia.Noctalia$"
+default_floating = true
+default_floating_size_px = { width = 1020, height = 900 }
+
+[[window_rule]]
+match.app_id = "^dev.noctalia.UmbrielSharePicker$"
+default_floating = true
+default_floating_size_px = { width = 800, height = 600 }
+
+[[window_rule]]
+match.title = "^(Picture-in-Picture|Picture in picture)$"
+default_floating = true
+default_maximize = false
+default_position = { x = 20, y = 20, anchor = "bottom_right" }
+
+[[window_rule]]
+match.title = "^notificationtoasts_.+_desktop"
+default_position = { x = 0, y = 0, anchor = "bottom_right" }
+default_focused = false
+default_pinned = true
+
+# ==============================================================================
+# Layer rules
+# https://docs.noctalia.dev/umbriel/layer-rules/
+[[layer_rule]]
+match.namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd|desktop-widget-[^\"]*)$"
+blur = true
+blur_ignore_alpha = 0.5
+blur_popups = true
+blur_optimized = false
+
+# ==============================================================================
+# Overview
+# Built-in overview and animation values are used. The top-left hot corner opens
+# the overview after a short delay.
+# Overview: https://docs.noctalia.dev/umbriel/workspaces-overview/
+# Animation: https://docs.noctalia.dev/umbriel/animation/
+[hot_corners.top_left]
+enabled = true
+delay_ms = 500
+action = "overview-open"

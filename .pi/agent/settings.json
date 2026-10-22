@@ -1,8 +1,14 @@
 {
-  "lastChangelogVersion": "0.81.1",
-  "defaultProvider": "opencode-go",
-  "defaultModel": "deepseek-v4-pro",
-  "defaultThinkingLevel": "max",
-  "hideThinkingBlock": false,
-  "theme": "dark"
+  "lastChangelogVersion": "1.2.0",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-6.1-sol",
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": true,
+  "theme": "dark",
+  "packages": [
+    "npm:pi-claude-bridge@0.9.2",
+    "npm:pi-subagents",
+    "npm:@antfu/design",
+    "npm:pi-elixir"
+  ]
 }

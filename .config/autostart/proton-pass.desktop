@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Proton Pass
+Comment=Proton Pass desktop application
+Exec=proton-pass
+Icon=proton-pass
+Terminal=false
+StartupNotify=false
+Categories=Utility;
+X-GNOME-Autostart-enabled=true

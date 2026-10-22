@@ -27,9 +27,11 @@
     },
     "pencil": {
       "command": [
-        "/tmp/.mount_pencilePtMvH/resources/app.asar.unpacked/out/mcp-server-linux-x64",
+        "/tmp/.mount_pen.apE7bzvA/resources/app.asar.unpacked/out/mcp-server-linux-x64",
         "--app",
-        "desktop"
+        "desktop",
+        "--agent",
+        "openCodeCLI"
       ],
       "enabled": true,
       "type": "local"

@@ -1,0 +1,27 @@
+[Unit]
+Description=RClone Proton Drive Mount
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=1h
+StartLimitBurst=3
+
+[Service]
+Type=notify
+# Proton Drive can return a long Retry-After (for example, after a 429).
+# Do not let systemd kill rclone while it is waiting.
+TimeoutStartSec=infinity
+ExecStartPre=/usr/bin/mkdir -p %h/proton-drive
+ExecStart=/usr/bin/rclone --config=%h/.config/rclone/rclone.conf mount proton-drive: %h/proton-drive \
+    --vfs-cache-mode writes \
+    --vfs-cache-max-size 500M \
+    --vfs-cache-max-age 1h \
+    --dir-cache-time 5m \
+    --poll-interval 1m \
+    --umask 002 \
+    --allow-other
+ExecStop=/bin/fusermount -u %h/proton-drive
+Restart=on-failure
+RestartSec=5min
+
+[Install]
+WantedBy=default.target

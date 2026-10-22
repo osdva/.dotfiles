@@ -2,6 +2,8 @@
 set -g fish_greeting
 set --global fish_key_bindings fish_default_key_bindings
 set -gx EDITOR nvim
+set -gx SSH_AUTH_SOCK "$HOME/.ssh/proton-pass-ssh-agent.sock"
+set -gx PROTON_PASS_LINUX_KEYRING dbus
 
 # fzf
 fzf_configure_bindings --directory=\cf --git_status=\cs --processes=\cp
@@ -42,5 +44,8 @@ alias set-alias 'alias -s'
 mise activate fish | source
 fzf --fish | source
 zoxide init fish | source
+if command -q pass-cli
+    pass-cli completions fish | source
+end
 eval (tmuxifier init - fish)
 starship init fish | source

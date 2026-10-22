@@ -20,9 +20,9 @@ if [ -f "$HOST_SECRETS" ]; then
   source "$HOST_SECRETS"
 fi
 
-if [ -S "$HOME/.ssh/proton-pass-ssh-agent.sock" ]; then
-  export SSH_AUTH_SOCK="$HOME/.ssh/proton-pass-ssh-agent.sock"
-fi
+# Proton Pass provides the SSH agent used by OpenSSH and Git signing.
+export SSH_AUTH_SOCK="$HOME/.ssh/proton-pass-ssh-agent.sock"
+export PROTON_PASS_LINUX_KEYRING=dbus
 
 # Stay in bash for `bash -c` / `bash -ic`, including on a PTY, so the command runs.
 if [[ $- == *i* ]] && [[ $- != *c* ]] && [[ -t 1 ]] && [[ -z "$FISH_VERSION" ]]; then

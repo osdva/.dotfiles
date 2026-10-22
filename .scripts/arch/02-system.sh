@@ -15,16 +15,11 @@ paru -S --needed --noconfirm ly
 sudo systemctl enable ly@tty2.service
 
 log_info "Installing Noctalia shell..."
-paru -S --needed --noconfirm noctalia-shell matugen pam-u2f
+paru -S --needed --noconfirm noctalia matugen pam-u2f
 
 log_info "Installing network manager..."
 paru -S --needed --noconfirm networkmanager
 sudo systemctl enable --now NetworkManager.service
-
-log_info "Installing launcher..."
-paru -S --needed --noconfirm walker-bin elephant-all-bin
-elephant service enable
-sudo systemctl --user start elephant.service
 
 log_info "Cleaning up unwanted niri dependencies..."
 

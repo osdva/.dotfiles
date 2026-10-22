@@ -1,8 +1,8 @@
 /**
  * Exa Web Search tool for pi
  *
- * Reads API key from 1Password CLI:
- *   op read "${EXA_OP_REFERENCE:-op://Private/API-Keys/EXA_API_KEY}"
+ * Reads the API key from Proton Pass CLI. EXA_PROTON_PASS_REFERENCE may use
+ * IDs or names, for example: pass://Private/API-Keys/EXA_API_KEY
  */
 
 import { execFile } from "node:child_process";
@@ -19,13 +19,18 @@ type ExaResult = {
 	publishedDate?: string;
 };
 
-async function readExaApiKeyFrom1Password(): Promise<string> {
+async function readExaApiKeyFromProtonPass(): Promise<string> {
 	const reference =
-		process.env.EXA_OP_REFERENCE ?? "op://Private/API-Keys/EXA_API_KEY";
+		process.env.EXA_PROTON_PASS_REFERENCE ??
+		"pass://Private/API-Keys/EXA_API_KEY";
 
-	const { stdout } = await execFileAsync("op", ["read", reference]);
+	const { stdout } = await execFileAsync("pass-cli", [
+		"item",
+		"view",
+		reference,
+	]);
 	const key = stdout.trim();
-	if (!key) throw new Error("1Password returned an empty EXA API key");
+	if (!key) throw new Error("Proton Pass returned an empty EXA API key");
 	return key;
 }
 
@@ -60,13 +65,13 @@ export default function (pi: ExtensionAPI) {
 
 			let apiKey: string;
 			try {
-				apiKey = await readExaApiKeyFrom1Password();
+				apiKey = await readExaApiKeyFromProtonPass();
 			} catch (error) {
 				return {
 					content: [
 						{
 							type: "text",
-							text: `Unable to read Exa API key from 1Password CLI (op). ${String(error)}`,
+							text: `Unable to read Exa API key from Proton Pass CLI (pass-cli). ${String(error)}`,
 						},
 					],
 					details: { ok: false, reason: "missing_api_key" },

@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "figma": {
+      "url": "https://mcp.figma.com/mcp",
+      "oauth": {
+        "clientName": "Claude Code"
+      },
+      "description": "Figma design files, components, variables, and Dev Mode context"
+    },
+    "firecrawl": {
+      "url": "https://mcp.firecrawl.dev/v2/mcp-oauth",
+      "description": "Search, scrape, crawl, map, and research the web with Firecrawl"
+    },
+    "pencil": {
+      "command": "/tmp/.mount_pen.apE7bzvA/resources/app.asar.unpacked/out/mcp-server-linux-x64",
+      "args": ["--app", "desktop"],
+      "env": {},
+      "description": "pen.dev (Pencil) design and illustration tools: Execute/Generate for baratorama.pen"
+    }
+  }
+}

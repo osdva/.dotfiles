@@ -2,3 +2,6 @@
 	email = you@example.com
 	name = Your Name
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA...
+
+# Git uses the SSH key above through SSH_AUTH_SOCK. No custom signing
+# program is needed when the Proton Pass SSH agent is running.

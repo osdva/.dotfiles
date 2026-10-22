@@ -1,2 +1,13 @@
-auth.json
-sessions/
+# Credentials and machine-local state
+/auth.json
+/mcp-auth.json
+/claude-bridge.json
+/trust.json
+/sessions/
+/pi-subagents/
+
+# Managed installations and temporary files
+/bin/
+/install/
+/npm/
+/tmp/

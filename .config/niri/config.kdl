@@ -62,10 +62,6 @@ animations {
 
 }
 window-rule {
-    match app-id="spotify"
-    open-maximized true
-}
-window-rule {
     geometry-corner-radius 10
     clip-to-geometry true
 }
@@ -86,7 +82,7 @@ binds {
         spawn "helium-browser"
     }
     Mod+P hotkey-overlay-title="Open password manager" {
-        spawn "1password"
+        spawn "proton-pass"
     }
     Mod+N hotkey-overlay-title="Open obsidian" {
         spawn "obsidian"
@@ -95,31 +91,31 @@ binds {
         spawn "qbz"
     }
     Mod+Space repeat=false {
-        spawn "walker"
+        spawn-sh "noctalia msg panel-toggle launcher"
     }
     Mod+Alt+L hotkey-overlay-title="Lock Screen" {
-        spawn-sh "qs -c noctalia-shell ipc call lockScreen lock"
+        spawn-sh "noctalia msg session lock"
     }
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null {
         spawn-sh "pkill orca || exec orca"
     }
     XF86AudioRaiseVolume allow-when-locked=true {
-        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ --limit 1.0"
+        spawn-sh "noctalia msg volume-up"
     }
     XF86AudioLowerVolume allow-when-locked=true {
-        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05- --limit 1.0"
+        spawn-sh "noctalia msg volume-down"
     }
     XF86AudioMute allow-when-locked=true {
-        spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        spawn-sh "noctalia msg volume-mute"
     }
     XF86AudioMicMute allow-when-locked=true {
-        spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+        spawn-sh "noctalia msg mic-mute"
     }
     XF86MonBrightnessUp allow-when-locked=true {
-        spawn "brightnessctl" "--class=backlight" "set" "+5%"
+        spawn-sh "noctalia msg brightness-up"
     }
     XF86MonBrightnessDown allow-when-locked=true {
-        spawn "brightnessctl" "--class=backlight" "set" "5%-"
+        spawn-sh "noctalia msg brightness-down"
     }
     Mod+O repeat=false {
         toggle-overview
@@ -455,9 +451,13 @@ environment {
     GTK_IM_MODULE "ibus"
     QT_IM_MODULE "ibus"
 }
-spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-at-startup "noctalia"
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-at-startup "walker" "--gapplication-service"
 // Active monitor profile: external monitor on the left, laptop panel on the right.
 include "profiles/left-monitor-right-laptop.kdl"
 
+
+
+
+include "noctalia.kdl"
